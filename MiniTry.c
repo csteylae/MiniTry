@@ -1,11 +1,14 @@
 int read_the_input()
 {
-    char *cmd;
+    char *input;
 
     while (1)
     {
-        cmd = readline("prompt> ");
-        add_history(cmd);
+        input = readline("prompt> ");
+        if (!ft_strlen(input))
+            continue;
+        add_history(input);
+        free(input);
     }
 }
 
