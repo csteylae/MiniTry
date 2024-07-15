@@ -5,10 +5,18 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 
+typedef struct s_redirect
+{
+    //?
+}   t_redirect;
+
 typedef struct s_command
 {
-    char    **cmd;
-    int     flag; //quel type ?
+    char        **cmd;
+    int         flag; //quel type ?
+    t_redirect  redirect; //?
+    char        **open;
+    char        **read;
 }   t_command;
 
 typedef struct s_data
