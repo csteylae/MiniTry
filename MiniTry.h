@@ -13,6 +13,7 @@ typedef struct s_redirect
 typedef struct s_command
 {
     char        **cmd;
+    int         index;
     int         flag; //quel type ?
     t_redirect  redirect; //?
     char        **open;
@@ -21,6 +22,6 @@ typedef struct s_command
 
 typedef struct s_data
 {
-    char    **envp;
-    char    **tab; //tableau de struct pas char *
+    char         **envp;
+    t_command    *tab;
 }   t_data;
