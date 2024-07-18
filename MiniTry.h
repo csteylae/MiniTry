@@ -25,3 +25,9 @@ typedef struct s_data
     char         **envp;
     t_command    *tab;
 }   t_data;
+
+enum e_tokens {
+    PIPE,
+    QUOTE,
+    WORD
+}	t_tokens;
