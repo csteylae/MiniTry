@@ -28,6 +28,14 @@ Types de tokens
     WORD : Toute séquence de caractères qui n'est pas un opérateur.
     OPERATOR : Caractères spéciaux comme |, <, >, >>, <<.
     QUOTES : Gérer les contenus entre ' et ".
+	
+Gestion des guillemets :
+
+    Les guillemets simples (') et doubles (") sont traités pour inclure tout le contenu entre les guillemets comme un seul token.
+
+Mots (WORDS) :
+
+    Les séquences de caractères qui ne sont pas des opérateurs ou des espaces sont considérées comme des mots.
 	*/
 
  typedef enum {
@@ -60,7 +68,8 @@ Token *tokenize(char *input) {
             new_token->type = OPERATOR;
             new_token->value = strndup(input, 1);
             input++;
-        } else if (*input == '>') {
+        } else if (*input == '>') { //    Lorsque le caractère > est trouvé, vérifiez si le caractère suivant est également >. Si c'est le cas, créez un token de type APPEND.
+									//    Lorsque le caractère < est trouvé, vérifiez si le caractère suivant est également <. Si c'est le cas, créez un token de type HEREDOC.
             if (*(input + 1) == '>') {
                 new_token->type = APPEND;
                 new_token->value = strndup(input, 2);
@@ -80,9 +89,9 @@ Token *tokenize(char *input) {
                 new_token->value = strndup(input, 1);
                 input++;
             }
-        } else if (*input == '\'') {
+        } else if (*input == '\'') { //        Identifier et gérer les guillemets simples (') et doubles (").
             new_token->type = SINGLE_QUOTE;
-            char *end = strchr(input + 1, '\'');
+            char *end = strchr(input + 1, '\''); //        S'assurer que les contenus entre guillemets soient traités comme une seule unité (token).
             if (!end) {
                 fprintf(stderr, "Erreur : guillemet non fermé\n");
                 free(new_token);
@@ -122,3 +131,57 @@ Token *tokenize(char *input) {
     return head;
 }
 }
+
+/*
+Construction de l'arbre syntaxique (AST)
+
+Après la tokenisation, il est nécessaire de construire un AST pour représenter les commandes. Chaque nœud de cet arbre peut représenter :
+
+    Une commande simple
+    Une redirection
+    Un pipeline
+
+Voici une structure simple pour les nœuds de l'AST :
+
+Voici une structure simple pour les nœuds de l'AST :
+
+c
+
+typedef enum {
+    NODE_COMMAND,
+    NODE_PIPE,
+    NODE_REDIRECTION
+} NodeType;
+
+typedef struct s_ast {
+    NodeType type;
+    char **args; // pour NODE_COMMAND
+    struct s_ast *left; // pour les pipelines et les redirections
+    struct s_ast *right; // pour les pipelines et les redirections
+} ASTNode;
+
+Parsing des tokens en AST
+
+Il faut maintenant écrire un parser qui convertit les tokens en un AST. Voici une fonction de base pour créer des nœuds de commande :
+
+c
+
+ASTNode *parse_command(Token **tokens) {
+    ASTNode *node = malloc(sizeof(ASTNode));
+    node->type = NODE_COMMAND;
+    node->args = malloc(sizeof(char *) * 10); // Taille initiale, à ajuster dynamiquement si nécessaire
+
+    int i = 0;
+    while (*tokens && (*tokens)->type == WORD) {
+        node->args[i++] = strdup((*tokens)->value);
+        *tokens = (*tokens)->next;
+    }
+    node->args[i] = NULL;
+
+    return node;
+}
+
+Conclusion
+
+Ces étapes fournissent une base pour parser l'input utilisateur dans votre projet de minishell. Il reste à compléter le parser pour gérer les pipelines, les redirections, et les autres fonctionnalités spécifiées. Une fois que le parser est complet, vous pouvez implémenter l'exécution des commandes en parcourant l'AST.
+*/
