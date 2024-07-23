@@ -7,17 +7,14 @@
 
 typedef struct s_redirect
 {
-    //?
+    char        **open;
+    char        **read;
 }   t_redirect;
 
 typedef struct s_command
 {
-    char        **cmd;
-    int         index;
-    int         flag; //quel type ?
-    t_redirect  redirect; //?
-    char        **open;
-    char        **read;
+    char        *cmd;
+    t_redirect  redirect;
 }   t_command;
 
 typedef struct s_data
@@ -29,5 +26,6 @@ typedef struct s_data
 enum e_tokens {
     PIPE,
     QUOTE,
+    D_QUOTE,
     WORD
 }	t_tokens;

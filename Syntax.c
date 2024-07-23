@@ -27,21 +27,21 @@ int error_fct()
 
 int check_syntax(char *input)
 {
-    if (!check_open_quotes(input, '\"', 0) || !check_open_quotes(input, '\'', 0))
-        return (1);
-    while (input)
+    int i;
+    
+    i = 0;
+    while (input[i])
     {
-        if (input == '\"' || input == '\'')
-        {
-            input++;
-            while (input != '\"' || input != '\'')
-                input++;
-        }
-
+        if (input == '\"')
+            i += check_open_quotes(input, '\"', i)
+        else if (input == '\'')
+            i += check_open_quotes(input, '\'', i)
+        i++;
     }
     //check pas de doubles pipes hors quotes
     //passer une seule fois sur la string -> mettre un if a la fin si on a pas ferme une quote d'ici la fin c'est qu'on a une quote ouverte -> free et syntax error
     // donc en gros tokenifier d'office differament des qu'on trouve une quote puis changer tout en fonction de si elle est pas fermee
+    // pas de double pipe, pas de &, pas plus de 2 > ou <, | comme dernier char, | vide
     return (0);
 }
 

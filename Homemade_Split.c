@@ -6,11 +6,9 @@
 /*   By: iwaslet <iwaslet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 19:48:46 by iwaslet           #+#    #+#             */
-/*   Updated: 2024/07/16 17:58:09 by iwaslet          ###   ########.fr       */
+/*   Updated: 2024/07/23 12:12:30 by iwaslet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-//liste des separateurs: < 60, > 62, | 124,  32, >> append, << here-doc et les separateurs ou faut gerer les espaces: " 34, ' 39
 
 int pars_it(char *input)
 {
@@ -49,7 +47,7 @@ char	**create_tab(int nbr)
 
 int is_separator(char *str)
 {
-	
+	//liste des separateurs: < 60, > 62, | 124,  32, >> append, << here-doc et les separateurs ou faut gerer les espaces: " 34, ' 39
 }
 
 void    save_space(char *str, char c)
