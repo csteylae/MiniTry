@@ -23,6 +23,8 @@ int read_the_input()
 int main(int ac, char **av, char **envp)
 {
     (void)av;
+	(void)envp;
+
     if (ac != 1)
         return (1);
     read_the_input();
