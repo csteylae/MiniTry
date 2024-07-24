@@ -7,7 +7,7 @@ SRCS= minitry.c
 OBJS=$(SRCS:.c=.o)
 
 $(NAME) :$(OBJS)
-	make -C Libft
+	make bonus -C Libft
 	$(CC) $(CFLAGS) $(OBJS) -o $(NAME) Libft/libft.a -lreadline
 
 all : $(NAME)
