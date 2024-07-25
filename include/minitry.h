@@ -8,21 +8,21 @@
 /**
  * A structure containing the potential files for write and read redirection
  *
- * - redirect->read	contains potential input redirections caused by the operator < filename 
- * - redirect->write	contains potential output redirections caused by the operator > filename
+ * - redirect->input	contains potential input redirection(s) caused by the operator < filename 
+ * - redirect->output	contains potential output redirection(s) caused by the operator > filename
  *
  * Each  member is optional 
  */
 typedef struct s_redirect
 {
-    char        **read;
-    char        **write;
+    char        **input;
+    char        **output;
 }   t_redirect;
 
 /**
  * A structure containing the commands that will by passed to the executor in form of an array of t_command
  *
- * - command->cmd		contains in cmd[0] command name and the rest of the array contains its potential attribute
+ * - command->cmd		contains in cmd[0] command name and the rest of the array contains its potential options
  * - command->redirect	contains the potential redirections of the command. It is an optionnal member (can be set to NULL) (?)
  */
 typedef struct s_command
