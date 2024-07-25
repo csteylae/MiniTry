@@ -6,7 +6,7 @@
 /*   By: iwaslet <iwaslet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 19:48:46 by iwaslet           #+#    #+#             */
-/*   Updated: 2024/07/23 12:12:30 by iwaslet          ###   ########.fr       */
+/*   Updated: 2024/07/24 15:54:16 by iwaslet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,3 +67,27 @@ void    save_space(char *str, char c)
         str++;
     }
 }
+
+
+/*
+DYNAMIC ARRAY IDEA
+struct s_darray
+{
+    void*   content;
+    size_t  max_size;       size of malloced memory
+    size_t  type_size;      size of element type
+    size_t  actual_size;    amount of bytes in use
+    size_t  size;           amount of elements
+    soze_t  block_size;     size of blocks
+}
+
+init_array(amount, type_size);
+append(void* element);              if ((size + 1) * type_size > max_size) --> realloc with an extra block
+                                        else just add element and size++ and stuff
+realloc_array();                    new void* content, memcopy(void* content, void* new, actual_size), free old one
+at(index);                          if (index <= size) { index * type_size }
+delete(delete*(void*))              if (delete != NULL) { use delete ft on all elements }
+                                        (most of the time it's either delete(NULL) or delete(free()))
+
+void* content = [][][][][]       = 5 mem blocks of size type_size (e.g. int or token)
+*/

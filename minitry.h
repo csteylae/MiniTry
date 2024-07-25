@@ -7,8 +7,8 @@
 
 typedef struct s_redirect
 {
-    char        **open;
-    char        **read;
+    char    **open;
+    char    **read;
 }   t_redirect;
 
 typedef struct s_command
@@ -19,13 +19,21 @@ typedef struct s_command
 
 typedef struct s_data
 {
-    char         **envp;
-    t_command    *tab;
+    char        **envp;
+    t_command   *tab;
 }   t_data;
 
-enum e_tokens {
+typedef enum
+{
     PIPE,
-    QUOTE,
+    S_QUOTE,
     D_QUOTE,
-    WORD
-}	t_tokens;
+    WORD,
+    HEREDOC,
+    APPEND
+}	token_type;
+
+typedef struct s_token
+{
+
+}   t_token;
