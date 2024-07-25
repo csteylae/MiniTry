@@ -6,17 +6,33 @@
 #include <readline/history.h>
 
 /**
+ *	An optionnal structure containing redirections
+ * in the case of a redirection such as "fildescriptor> filename" 
+ *
+ *	- fd->fildes 			is the filedescriptor
+ *	- fd->ptr_to_filename	is the pointer to the str refered to filename registered to the char **output or **input 
+ *	This struct and all members are optional
+ */
+typedef	struct s_fd
+{
+	int	fildes;
+	char **ptr_to_filename;
+} t_fd;
+
+/**
  * A structure containing the potential files for write and read redirection
  *
  * - redirect->input	contains potential input redirection(s) caused by the operator < filename 
  * - redirect->output	contains potential output redirection(s) caused by the operator > filename
- *
- * Each  member is optional 
+ * - redirect->fd_in	is an array of struct fd 
+ * This struct and all members are optional 
  */
 typedef struct s_redirect
 {
     char        **input;
     char        **output;
+	t_fd		*fd_in;
+	t_fd		*fd_out;
 }   t_redirect;
 
 /**
