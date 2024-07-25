@@ -27,7 +27,7 @@ typedef	struct s_fd
  * - redirect->fd_in	is an array of struct fd 
  * This struct and all members are optional 
  */
-typedef struct s_redirect 
+typedef struct s_redirect
 {
     char        **input;
     char        **output;
