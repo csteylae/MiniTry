@@ -1,4 +1,4 @@
-#include "Minitry.h"
+#include "../../include/minitry.h"
 
 int read_the_input()
 {
