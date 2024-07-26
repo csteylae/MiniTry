@@ -1,3 +1,4 @@
+#include "../Libft/libft.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -67,3 +68,5 @@ enum e_tokens {
     D_QUOTE,
     WORD
 }	t_tokens;
+
+void	exec_cd(char *cmd);

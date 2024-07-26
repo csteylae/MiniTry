@@ -9,6 +9,7 @@ int read_the_input()
         input = readline("feed me please> ");
         if (!strlen(input))
             continue;
+//		exec_cd(input);
         add_history(input);
         free(input);
     }
