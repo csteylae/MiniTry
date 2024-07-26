@@ -70,3 +70,4 @@ enum e_tokens {
 }	t_tokens;
 
 void	exec_cd(char *cmd);
+void	exec_env(char *str, char **envp);

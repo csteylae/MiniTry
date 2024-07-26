@@ -1,15 +1,16 @@
 #include "../../include/minitry.h"
 
-int read_the_input()
+int read_the_input(char **envp)
 {
     char *input;
 
     while (1)
     {
-        input = readline("feed me please> ");
+        input = readline("gib comand pliz> ");
         if (!strlen(input))
             continue;
-//		exec_cd(input);
+		exec_cd(input); //test 
+		exec_env(input, envp); //test
         add_history(input);
         free(input);
     }
@@ -23,6 +24,6 @@ int main(int ac, char **av, char **envp)
 
     if (ac != 1)
         return (1);
-    read_the_input();
+    read_the_input(envp);
     return (0);
 }
