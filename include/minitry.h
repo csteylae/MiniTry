@@ -6,45 +6,47 @@
 #include <readline/history.h>
 
 /**
- *	An optionnal structure containing redirections
- * in the case of a redirection such as "fildescriptor> filename" 
+ * An enum to identify the different type of redirection that can affect a command
  *
- *	- fd->fildes 			is the filedescriptor
- *	- fd->ptr_to_filename	is the pointer to the str refered to filename registered to the char **output or **input 
- *	This struct and all members are optional
+ * REDIR_IN :	<
+ * REDIR_OUT:	>	
+ * REDIR_HEREDOC : <<
+ * REDIR_APPEND :	>>
  */
-typedef	struct s_fd
-{
-	int	fildes;
-	char **ptr_to_filename;
-} t_fd;
+typedef enum e_redirection_type {
+    REDIR_IN, 
+    REDIR_OUT,
+    REDIR_APP,
+    REDIR_HEREDOC
+} t_redirection_type;
 
 /**
- * A structure containing the potential files for write and read redirection
+ * A structure containing all the potential necessary informations about a redirction
  *
- * - redirect->input	contains potential input redirection(s) caused by the operator < filename 
- * - redirect->output	contains potential output redirection(s) caused by the operator > filename
- * - redirect->fd_in	is an array of struct fd 
- * This struct and all members are optional 
+ * int fildes :	the optionnal file descriptor that can be associated to a redirection (such as "fd< filename")
+ * char *filename : the name of the file in which the command is redirected to read from or to write to
+ * type	: the kind of redirection
+ *
+ *  This struct and all its members are optional 
  */
-typedef struct s_redirect
+typedef struct s_redirect 
 {
-    char        **input;
-    char        **output;
-	t_fd		*fd_in;
-	t_fd		*fd_out;
+	int					fildes;
+	char				*filename;
+	t_redirection_type	type;
+	
 }   t_redirect;
 
 /**
  * A structure containing the commands that will by passed to the executor in form of an array of t_command
  *
  * - command->cmd		contains in cmd[0] command name and the rest of the array contains its potential options
- * - command->redirect	contains the potential redirections of the command. It is an optionnal member (can be set to NULL) (?)
+ * - command->redirect	contains all the potential redirections that affect the command. It is an array of redirection. It is an optional member (can be set to NULL) (?)
  */
 typedef struct s_command
 {
     char        **cmd;
-    t_redirect  redirect;
+    t_redirect  *redirect;
 }   t_command;
 
 /**
