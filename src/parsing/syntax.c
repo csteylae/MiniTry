@@ -49,5 +49,7 @@ int pars_it(char *input)
         //avancer c par c, des qu'on a une quote -> check is_in_quote permanent
         // si in quote -> texte, si not -> regular parsing
         //a la fin -> if quote pas fermee -> free tout et syntax error
+        // si y a un chiffre colle a un < ou >, c'est un fd ???
+        // ">/< filename" toujours
     }
 }

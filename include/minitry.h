@@ -1,3 +1,4 @@
+#include "../Libft/libft.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -6,19 +7,23 @@
 #include <readline/history.h>
 
 /**
- * An enum to identify the different type of redirection that can affect a command
+ * An enum to identify the different type of operator, including  redirection that can affect a command
  *
  * REDIR_IN :	<
  * REDIR_OUT:	>	
  * REDIR_HEREDOC : <<
  * REDIR_APPEND :	>>
  */
-typedef enum e_redirection_type {
+enum e_tokens {
+    PIPE,
+    QUOTE,
+    D_QUOTE,
+    WORD,
     REDIR_IN, 
     REDIR_OUT,
     REDIR_APP,
     REDIR_HEREDOC
-} t_redirection_type;
+}	t_tokens;
 
 /**
  * A structure containing all the potential necessary informations about a redirction
@@ -33,7 +38,7 @@ typedef struct s_redirect
 {
 	int					fildes;
 	char				*filename;
-	t_redirection_type	type;
+	e_tokens			type;
 	
 }   t_redirect;
 
@@ -61,17 +66,5 @@ typedef struct s_data
     t_command    *tab;
 }   t_data;
 
-typedef enum
-{
-    PIPE,
-    S_QUOTE,
-    D_QUOTE,
-    WORD,
-    HEREDOC,
-    APPEND
-}	token_type;
-
-typedef struct s_token
-{
-
-}   t_token;
+void	exec_cd(char *cmd);
+void	exec_env(char *str, char **envp);

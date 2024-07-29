@@ -2,7 +2,9 @@ NAME= minitry
 CC=cc
 CFLAGS= -Wall -Wextra -Werror
 
-SRCS= src/parsing/minitry.c 
+SRCS= src/parsing/minitry.c \
+	  src/builtins/cd.c \
+	  src/builtins/env.c \
 
 OBJS=$(SRCS:.c=.o)
 
