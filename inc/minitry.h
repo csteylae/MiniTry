@@ -26,6 +26,8 @@ enum e_tokens {
 }	t_tokens;
 
 /**
+ * !!!!Still on construction !!!!!!!
+ *
  * A structure containing all the potential necessary informations about a redirction
  *
  * int fildes :	the optionnal file descriptor that can be associated to a redirection (such as "fd< filename")
@@ -39,10 +41,13 @@ typedef struct s_redirect
 	int					fildes;
 	char				*filename;
 	e_tokens			type;
+	char				*heredoc_delimiter //in case of heredoc. is set to null if type is not heredoc 
 	
 }   t_redirect;
 
 /**
+ * !!!!still in construction !!!
+ *
  * A structure containing the commands that will by passed to the executor in form of an array of t_command
  *
  * - command->cmd		contains in cmd[0] command name and the rest of the array contains its potential options
@@ -50,7 +55,7 @@ typedef struct s_redirect
  */
 typedef struct s_command
 {
-    char        **cmd;
+    char        **cmd; // considerer les variable d'environnement seulement comme des options ?
     t_redirect  *redirect;
 }   t_command;
 
