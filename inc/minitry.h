@@ -1,10 +1,21 @@
-#include "../Libft/libft.h"
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <string.h>
-#include <readline/readline.h>
-#include <readline/history.h>
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minitry.h                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: csteylae <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/07/31 12:00:34 by csteylae          #+#    #+#             */
+/*   Updated: 2024/07/31 12:02:36 by csteylae         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+# ifndef MINITRY_H
+
+# define MINITRY_H
+
+#include "minitry_libraries.h"
+#include "minitry_function.h"
 
 /**
  * An enum to identify the different type of operator, including  redirection that can affect a command
@@ -67,9 +78,8 @@ typedef struct s_command
  */
 typedef struct s_data
 {
-    char         **envp;
+    char         **env;
     t_command    *tab;
 }   t_data;
 
-void	exec_cd(char *cmd);
-void	exec_env(char *str, char **envp);
+# endif
