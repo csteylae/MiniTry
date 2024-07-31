@@ -6,13 +6,15 @@
 /*   By: iwaslet <iwaslet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 12:20:42 by csteylae          #+#    #+#             */
-/*   Updated: 2024/07/31 12:37:40 by iwaslet          ###   ########.fr       */
+/*   Updated: 2024/07/31 12:41:24 by csteylae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # ifndef MINITRY_STRUCT_H
 
 # define MINITRY_STRUCT_H
+
+#include "minitry_lib.h"
 
 /**
  * An enum to identify the different type of operator, including  redirection that can affect a command
