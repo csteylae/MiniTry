@@ -6,7 +6,7 @@
 /*   By: iwaslet <iwaslet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 12:20:42 by csteylae          #+#    #+#             */
-/*   Updated: 2024/07/31 13:58:30 by iwaslet          ###   ########.fr       */
+/*   Updated: 2024/07/31 14:24:31 by csteylae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,32 +36,30 @@ enum e_tokens {
 }	t_tokens;
 
 /**
- * !!!!Still on construction !!!!!!!
- *
  * A structure containing all the potential necessary informations about a redirction
  *
- * int fildes :	the optionnal file descriptor that can be associated to a redirection (such as "fd< filename")
- * char *filename : the name of the file in which the command is redirected to read from or to write to
- * type	: the kind of redirection
+ * int fd (optionnal):				The file descriptor that can be associated to a redirection (such as "fd< filename")
+ * char *filename :					The name of the file that redirects the input or output stream to read from or write to.
+ * heredoc_delimiter (optionnal) :	Only for the case of REDIR_HEREDOC (noted "<< name of delimiter"). In all other case it will be set to NULL.
  *
  *  This struct and all its members are optional 
  */
 typedef struct s_redirect 
 {
-	int					fildes;
+	int					fd;
 	char				*filename;
-	enum e_tokens		type;
-	char				*heredoc_delimiter; //in case of heredoc. is set to null if type is not heredoc 
-	
+	char				*heredoc_delimiter;
 }   t_redirect;
 
 /**
- * !!!!still in construction !!!
- *
  * A structure containing the commands that will by passed to the executor in form of an array of t_command
  *
- * - command->cmd		contains in cmd[0] command name and the rest of the array contains its potential options
- * - command->redirect	contains all the potential redirections that affect the command. It is an array of redirection. It is an optional member (can be set to NULL) (?)
+ * - command->cmd	: 				it is an array of strings, as char **argv. It	contains in cmd[0] the command name and the others indexes contains its potential options
+ * - command->in (optionnal)	: 	an array of struct t_redirect. Contains all the possible IN_REDIR (noted <) that can affect a command
+ * - command->out (optionnal)	:	an array of struct t_redirect. Contains all the possible OUT_REDIR (noted >) that can affect a cmd
+ * - command->heredoc (optionnal) : an array of struct t_redirect. Contains all the possible HEREDOC_REDIR (noted << delimitor_name). In that case, the redirect->heredoc_delimiter is not NULL and indicate the name of the delimiter.
+ * - command->append (optionnal) :	an array of struct t_redirect. Contains all the possible APPEND_REDIR (noted >>).
+ *
  */
 typedef struct s_command
 {
@@ -71,7 +69,6 @@ typedef struct s_command
     t_redirect  *heredoc;
     t_redirect  *append;
 }   t_command;
-
 
 /**
  *	A big structure that will contains all important information to parse from parsing to execution. 
@@ -93,6 +90,6 @@ typedef struct s_array
     size_t  size;
     size_t  nbr;
     size_t  block;
-}       t_array
+}       t_array;
 
 # endif
