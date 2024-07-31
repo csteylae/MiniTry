@@ -6,7 +6,7 @@
 /*   By: iwaslet <iwaslet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 12:20:42 by csteylae          #+#    #+#             */
-/*   Updated: 2024/07/31 12:41:24 by csteylae         ###   ########.fr       */
+/*   Updated: 2024/07/31 13:58:30 by iwaslet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,9 +65,13 @@ typedef struct s_redirect
  */
 typedef struct s_command
 {
-    char        **cmd; // considerer les variable d'environnement seulement comme des options ?
-    t_redirect  *redirect;
+    char        **cmd;
+    t_redirect  *in;
+    t_redirect  *out;
+    t_redirect  *heredoc;
+    t_redirect  *append;
 }   t_command;
+
 
 /**
  *	A big structure that will contains all important information to parse from parsing to execution. 
