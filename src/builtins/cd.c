@@ -6,11 +6,11 @@
 /*   By: csteylae <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 16:23:29 by csteylae          #+#    #+#             */
-/*   Updated: 2024/07/26 16:55:57 by csteylae         ###   ########.fr       */
+/*   Updated: 2024/07/31 11:40:56 by csteylae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/minitry.h" 
+#include "../../inc/minitry.h" 
 
 int	ft_strnlen(char *str, char c)
 {

@@ -40,8 +40,8 @@ typedef struct s_redirect
 {
 	int					fildes;
 	char				*filename;
-	e_tokens			type;
-	char				*heredoc_delimiter //in case of heredoc. is set to null if type is not heredoc 
+	enum e_tokens		type;
+	char				*heredoc_delimiter; //in case of heredoc. is set to null if type is not heredoc 
 	
 }   t_redirect;
 

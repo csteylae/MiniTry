@@ -1,4 +1,4 @@
-#include "../../include/minitry.h"
+#include "../../inc/minitry.h"
 
 t_command   retrieve_cmd(char *input)
 {

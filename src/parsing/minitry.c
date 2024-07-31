@@ -1,4 +1,4 @@
-#include "../../include/minitry.h"
+#include "../../inc/minitry.h"
 
 int read_the_input(char **envp)
 {

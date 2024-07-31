@@ -6,11 +6,11 @@
 /*   By: csteylae <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 15:15:39 by csteylae          #+#    #+#             */
-/*   Updated: 2024/07/26 15:49:28 by csteylae         ###   ########.fr       */
+/*   Updated: 2024/07/31 11:40:16 by csteylae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/minitry.h"
+#include "../../inc/minitry.h"
 
 void	exec_command(char **cmd, char **envp)
 {
