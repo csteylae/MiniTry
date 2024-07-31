@@ -29,7 +29,7 @@ int read_the_input(char **envp)
         if (!strlen(input))
             continue;
 	//	data.tab = retrieve_cmd(input); doesnt compile for the moment 
-		test_env(data, input); //do not worry, simple tests that wont disturb your workflow :)
+		test_env(data, input); // simple tests that wont disturb your workflow :)
 //        add_history(input);
         //free(input);
     }

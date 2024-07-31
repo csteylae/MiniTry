@@ -6,7 +6,7 @@
 /*   By: csteylae <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 12:09:39 by csteylae          #+#    #+#             */
-/*   Updated: 2024/07/31 16:06:18 by csteylae         ###   ########.fr       */
+/*   Updated: 2024/07/31 17:21:31 by csteylae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ void	test_env(t_data *data, char *input)
 	exec_cd("src/execution");
 	exec_env(input, data->env);
 	data->tab = pseudo_parsing(data, input);
-	exec_prompt(data);
+//	exec_prompt(data);
 }
 
 void	ft_print_cmd(t_data *data)
@@ -92,9 +92,3 @@ void	ft_print_cmd(t_data *data)
 		i++;
 	}
 }
-
-
-
-
-
-
