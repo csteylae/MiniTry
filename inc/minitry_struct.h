@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minitry_struct.h                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: csteylae <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: iwaslet <iwaslet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 12:20:42 by csteylae          #+#    #+#             */
-/*   Updated: 2024/07/31 12:20:53 by csteylae         ###   ########.fr       */
+/*   Updated: 2024/07/31 12:37:40 by iwaslet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,5 +78,15 @@ typedef struct s_data
     char         **env;
     t_command    *tab;
 }   t_data;
+
+typedef struct s_array
+{
+    void    *content;
+    size_t  max_size;
+    size_t  type_size;
+    size_t  size;
+    size_t  nbr;
+    size_t  block;
+}       t_array
 
 # endif
