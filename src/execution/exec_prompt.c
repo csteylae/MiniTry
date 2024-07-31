@@ -1,24 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exec_command.c                                     :+:      :+:    :+:   */
+/*   exec_prompt.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: csteylae <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/26 15:15:39 by csteylae          #+#    #+#             */
-/*   Updated: 2024/07/31 16:13:57 by csteylae         ###   ########.fr       */
+/*   Created: 2024/07/31 16:07:13 by csteylae          #+#    #+#             */
+/*   Updated: 2024/07/31 16:14:01 by csteylae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minitry.h"
 
-void	exec_command(char **cmd, char **envp)
+void	exec_prompt(t_data *data)
 {
-	// check if built_in
-	// check for redirection
-	// check if pipeline
-	// fork
-	// construct path
-	// execve
-	// wait children
+	int	i;
+
+	i = 0;
+	while (i != data->tab_size)
+	{
+		exec_command(data->tab[i].cmd, data->env);
+		i++;
+	}
 }

@@ -6,7 +6,7 @@
 /*   By: iwaslet <iwaslet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 12:20:42 by csteylae          #+#    #+#             */
-/*   Updated: 2024/07/31 14:24:31 by csteylae         ###   ########.fr       */
+/*   Updated: 2024/07/31 16:02:07 by csteylae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ enum e_tokens {
  *
  * int fd (optionnal):				The file descriptor that can be associated to a redirection (such as "fd< filename")
  * char *filename :					The name of the file that redirects the input or output stream to read from or write to.
- * heredoc_delimiter (optionnal) :	Only for the case of REDIR_HEREDOC (noted "<< name of delimiter"). In all other case it will be set to NULL.
+ * heredoc_delimiter (optionnal) :	Only for the case of REDIR_HEREDOC (noted "<< name_of_delimiter"). In all other case it will be set to NULL.
  *
  *  This struct and all its members are optional 
  */
@@ -54,12 +54,11 @@ typedef struct s_redirect
 /**
  * A structure containing the commands that will by passed to the executor in form of an array of t_command
  *
- * - command->cmd	: 				it is an array of strings, as char **argv. It	contains in cmd[0] the command name and the others indexes contains its potential options
+ * - command->cmd	: 				an array of strings, as char **argv. It	contains in cmd[0] the command name and the others indexes contains its potential options
  * - command->in (optionnal)	: 	an array of struct t_redirect. Contains all the possible IN_REDIR (noted <) that can affect a command
  * - command->out (optionnal)	:	an array of struct t_redirect. Contains all the possible OUT_REDIR (noted >) that can affect a cmd
  * - command->heredoc (optionnal) : an array of struct t_redirect. Contains all the possible HEREDOC_REDIR (noted << delimitor_name). In that case, the redirect->heredoc_delimiter is not NULL and indicate the name of the delimiter.
  * - command->append (optionnal) :	an array of struct t_redirect. Contains all the possible APPEND_REDIR (noted >>).
- *
  */
 typedef struct s_command
 {
@@ -78,8 +77,9 @@ typedef struct s_command
  */
 typedef struct s_data
 {
-    char         **env;
-    t_command    *tab;
+    char		**env;
+    t_command	*tab;
+	int			tab_size;
 }   t_data;
 
 typedef struct s_array

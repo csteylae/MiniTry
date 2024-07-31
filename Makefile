@@ -5,6 +5,10 @@ CFLAGS= -Wall -Wextra -Werror
 SRCS= src/parsing/minitry.c \
 	  src/builtins/cd.c \
 	  src/builtins/env.c \
+	  src/environment/init_env.c\
+	  src/environment/test_env.c \
+	  src/execution/exec_command.c \
+	  src/execution/exec_prompt.c
 
 OBJS=$(SRCS:.c=.o)
 
