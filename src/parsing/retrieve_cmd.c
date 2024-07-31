@@ -13,7 +13,7 @@ t_command   retrieve_cmd(char *input)
         if (isspace(input[i]) = 0)
             i++;
         else if (input[i] == '|')
-            lexer->operator = PIPE;
+            lexer->operator = PIPE; //indiquer sa position qq part ? 
 		else if (input[i] == '<')
 			lexer->operator = IN;
 		else if (input[i] == '>')
@@ -44,6 +44,7 @@ t_command   retrieve_cmd(char *input)
 				i++;
 			}
 		}
+		i++;
     }
 }
 
