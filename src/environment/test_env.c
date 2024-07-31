@@ -1,21 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minitry.h                                          :+:      :+:    :+:   */
+/*   test_env.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: csteylae <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/31 12:20:28 by csteylae          #+#    #+#             */
-/*   Updated: 2024/07/31 12:20:55 by csteylae         ###   ########.fr       */
+/*   Created: 2024/07/31 12:09:39 by csteylae          #+#    #+#             */
+/*   Updated: 2024/07/31 12:12:45 by csteylae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINITRY_H
+#include "../../inc/minitry.h"
 
-#define MINITRY_H
+void	test_env(t_data *data, char *input)
+{
+	exec_cd("src/execution");
+	exec_env(input, data->env);
+}
 
-#include "minitry_lib.h"
-#include "minitry_struct.h"
-#include "minitry_function.h"
-
-#endif

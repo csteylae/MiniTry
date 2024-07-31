@@ -10,9 +10,8 @@ int read_the_input(char **envp)
         input = readline("gib comand pliz> ");
         if (!strlen(input))
             continue;
-		data.tab = retrieve_cmd(input);
-        exec_cd(input); //test 
-		exec_env(input, envp); //test
+	//	data.tab = retrieve_cmd(input); doesnt compile for the moment 
+		test_env(data, input); //do not worry, simple tests that wont disturb your workflow :)
         add_history(input);
         free(input);
     }
