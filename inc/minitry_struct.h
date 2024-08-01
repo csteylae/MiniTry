@@ -6,7 +6,7 @@
 /*   By: iwaslet <iwaslet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 12:20:42 by csteylae          #+#    #+#             */
-/*   Updated: 2024/07/31 18:21:23 by iwaslet          ###   ########.fr       */
+/*   Updated: 2024/08/01 14:19:01 by iwaslet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ enum e_tokens {
     QUOTE,
     D_QUOTE,
     WORD,
-    REDIR_IN, 
+    REDIR_IN,
     REDIR_OUT,
     REDIR_APP,
     REDIR_HEREDOC

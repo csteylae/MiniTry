@@ -7,7 +7,7 @@ t_command   retrieve_cmd(char *input)
     int		i;
 
     i= 0;
-    tab = init_array();
+    tab = init_array(sizeof(t_token);
     while (input[i])
     {
         if (isspace(input[i]) = 0)
@@ -24,23 +24,25 @@ t_command   retrieve_cmd(char *input)
 			lexer->operator = APPEND;
 		else if (input[i] == '\"')
 		{
+			lexer->operator = D_QUOTE;
 			i++;
 			while (input[i] != '\"')
 			{
 				if (input[i] == '\0')
 					syntax error
-				stocker chaque charctere
+				stocker chaque charctere dans une string
 				i++;
 			}
 		}
 		else if (input[i] == '\'')
 		{
+			lexer->operator = QUOTE;
 			i++;
 			while (input[i] != '\'')
 			{
 				if (input[i] == '\0')
 					syntax error
-				stocker chaque charctere
+				stocker chaque charctere dans une string
 				i++;
 			}
 		}
