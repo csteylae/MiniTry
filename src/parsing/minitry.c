@@ -30,8 +30,8 @@ int read_the_input(char **envp)
             continue;
 	//	data.tab = retrieve_cmd(input); doesnt compile for the moment 
 		test_env(data, input); // simple tests that wont disturb your workflow :)
-//        add_history(input);
-        //free(input);
+		add_history(input);
+        free(input);
     }
     return (0);
 }
