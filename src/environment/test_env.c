@@ -6,7 +6,7 @@
 /*   By: csteylae <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 12:09:39 by csteylae          #+#    #+#             */
-/*   Updated: 2024/07/31 17:21:31 by csteylae         ###   ########.fr       */
+/*   Updated: 2024/08/01 18:48:01 by csteylae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static void	set_all_members_to_NULL(t_command *tab, int size)
 	}
 }
 
-static void parse_cmd(t_command *tab, char *input)
+static void parse_cmd(t_data *data, t_command *tab, char *input)
 {
 	int i;
 	char **input_split;
@@ -62,18 +62,18 @@ static	t_command *pseudo_parsing(t_data *data, char *input)
 	nb_of_cmd = count_nb_of_cmd(input);
 	data->tab_size = nb_of_cmd;
 	printf("nb of cmd : %d\n", data->tab_size);
-	tab	= malloc(sizeof(tab) * (nb_of_cmd + 1));
+	tab	= malloc(sizeof(tab) * (nb_of_cmd));
 	set_all_members_to_NULL(tab, nb_of_cmd);
-	parse_cmd(tab, input);
+	parse_cmd(data, tab, input);
 	return (tab);
 }
 
 void	test_env(t_data *data, char *input)
 {
-	exec_cd("src/execution");
+//	exec_cd("src/execution");
 	exec_env(input, data->env);
 	data->tab = pseudo_parsing(data, input);
-//	exec_prompt(data);
+	exec_prompt(data);
 }
 
 void	ft_print_cmd(t_data *data)

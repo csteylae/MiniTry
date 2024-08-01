@@ -6,7 +6,7 @@
 /*   By: csteylae <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 12:00:49 by csteylae          #+#    #+#             */
-/*   Updated: 2024/07/31 16:12:33 by csteylae         ###   ########.fr       */
+/*   Updated: 2024/08/01 18:24:25 by csteylae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,8 @@ void	exec_cd(char *cmd);
 void	exec_env(char *str, char **envp);
 
 /* repo execution */
-
-void	exec_command(char **cmd, char **envp); /*file exec_command.c */
-void	exec_prompt(t_data *data); /* file exec_prompt.c */
+void	exec_command(t_data data, int nb); /*file exec_command.c */
+int	exec_prompt(t_data *data); /* file exec_prompt.c */
 
 
 #endif

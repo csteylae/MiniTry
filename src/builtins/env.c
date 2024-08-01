@@ -6,7 +6,7 @@
 /*   By: csteylae <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 17:03:21 by csteylae          #+#    #+#             */
-/*   Updated: 2024/07/31 11:41:05 by csteylae         ###   ########.fr       */
+/*   Updated: 2024/08/01 18:42:57 by csteylae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ void	exec_env(char *str, char **envp)
 	int	i;
 
 	i = 0;
+	if (!envp && !*envp)
+		return ;
 	if (!ft_strncmp("env", str, ft_strlen("env")))
 	{
 		while (envp[i])
