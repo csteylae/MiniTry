@@ -1,6 +1,7 @@
 NAME= minitry
 CC=cc
 CFLAGS= -Wall -Wextra -Werror
+DFLAGS= -fsanitize=address -g
 
 SRCS= src/parsing/minitry.c \
 	  src/builtins/cd.c \
@@ -27,5 +28,8 @@ fclean : clean
 	rm -rf  $(NAME)
 
 re: fclean all
+
+debug: CFLAGS += DFLAGS
+debug: re
 
 .PHONY: all clean fclean re
