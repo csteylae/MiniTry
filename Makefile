@@ -1,10 +1,15 @@
 NAME= minitry
 CC=cc
 CFLAGS= -Wall -Wextra -Werror
+DFLAGS= -fsanitize=address -g
 
 SRCS= src/parsing/minitry.c \
 	  src/builtins/cd.c \
 	  src/builtins/env.c \
+	  src/environment/init_env.c\
+	  src/environment/test_env.c \
+	  src/execution/exec_command.c \
+	  src/execution/exec_prompt.c
 
 OBJS=$(SRCS:.c=.o)
 
@@ -23,5 +28,8 @@ fclean : clean
 	rm -rf  $(NAME)
 
 re: fclean all
+
+debug: CFLAGS += DFLAGS
+debug: re
 
 .PHONY: all clean fclean re
