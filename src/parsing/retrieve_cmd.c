@@ -24,8 +24,6 @@ t_command   retrieve_cmd(char *input)
 			lexer->operator = APPEND;
 		else if (input[i] == '\"')
 		{
-			lexer->operator = D_QUOTE;
-			i++;
 			while (input[i] != '\"')
 			{
 				if (input[i] == '\0')
