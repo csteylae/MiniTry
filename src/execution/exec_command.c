@@ -10,18 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   exec_command.c                                     :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: csteylae <marvin@42.fr>                    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/26 15:15:39 by csteylae          #+#    #+#             */
-/*   Updated: 2024/08/01 18:33:43 by csteylae         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "../../inc/minitry.h"
 
 static char **get_absolute_path(char *cmd)
@@ -83,6 +71,7 @@ void	exec_command(t_data data, int n)
 
 	i = 0;
 	path = get_path(data.env, data.tab[n].cmd[0]);
+	ft_printf("testtttttttt\n");
 	if (!path)
 		exec_error(path);
 	while (path[i])

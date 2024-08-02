@@ -3,6 +3,9 @@ CC=cc
 CFLAGS= -Wall -Wextra -Werror
 DFLAGS= -fsanitize=address -g
 
+LIBFT = lib/Libft/libft.a
+PRINTF_LIB = lib/ft_printf/libftprintf.a
+
 SRCS= src/parsing/minitry.c \
 	  src/builtins/cd.c \
 	  src/builtins/env.c \
@@ -14,22 +17,25 @@ SRCS= src/parsing/minitry.c \
 OBJS=$(SRCS:.c=.o)
 
 $(NAME) :$(OBJS)
-	make bonus -C Libft
-	$(CC) $(CFLAGS) $(OBJS) -o $(NAME) Libft/libft.a -lreadline
+	make bonus -C lib/Libft
+	make -C lib/ft_printf
+	$(CC) $(CFLAGS) $(OBJS) -o $(NAME) $(LIBFT) $(PRINTF_LIB) -lreadline
 
 all : $(NAME)
 
 clean :
-	make clean -C Libft
+	make clean -C lib/Libft
+	make clean -C lib/ft_printf
 	rm -rf $(OBJS)
 
 fclean : clean
-	make fclean -C Libft
+	make fclean -C lib/Libft
+	make fclean -C lib/ft_printf
 	rm -rf  $(NAME)
 
 re: fclean all
 
-debug: CFLAGS += DFLAGS
+debug: CFLAGS += $(DFLAGS)
 debug: re
 
 .PHONY: all clean fclean re

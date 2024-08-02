@@ -14,7 +14,8 @@
 
 # define MINITRY_LIBRARIES_H
 
-# include "../Libft/libft.h"
+# include "../lib/Libft/libft.h"
+# include "../lib/ft_printf/ft_printf.h"
 # include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
