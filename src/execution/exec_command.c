@@ -64,6 +64,26 @@ static void	exec_error(char **path)
 	exit(EXIT_FAILURE);
 }
 
+char	*add_cmd_path(char *path, char *cmd)
+{
+	cmd = ft_strjoin(cmd, "/");
+	if (!cmd)
+		return (NULL);
+	path = ft_strjoin(path, cmd);
+	if (!path)
+		return (NULL);
+	free (cmd);
+	return (path);
+}
+
+
+/* 
+ * first construct the path from the var_env PATH, add the "/cmd" to the path 
+ * then try to access the executable via access() with the X_OK flag 
+ * if an access is found the command will be executed with execve() that will exit the programm
+ * if no path was found we need to manage the error appropriately
+ *
+ * */
 void	exec_command(t_data data, int n)
 {
 	int		i;
@@ -71,12 +91,12 @@ void	exec_command(t_data data, int n)
 
 	i = 0;
 	path = get_path(data.env, data.tab[n].cmd[0]);
-	ft_printf("testtttttttt\n");
 	if (!path)
 		exec_error(path);
 	while (path[i])
 	{
-		path[i] = ft_strjoin(path[i], data.tab[n].cmd[0]);
+
+		path[i] = add_cmd_path(path[i], data.tab[n].cmd[0]);
 		if (!path[i])
 			exec_error(path);
 		if (access(path[i], X_OK) == 0)
@@ -86,4 +106,7 @@ void	exec_command(t_data data, int n)
 		}
 		i++;
 	}
+	//free data
+	ft_printf("TEST\n");
+	exec_error(path);
 }

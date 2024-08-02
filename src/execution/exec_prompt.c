@@ -19,11 +19,12 @@ int	exec_prompt(t_data *data)
 	int	parent_pid;
 	int	pipe_fd[2];
 
+	parent_pid = 0;
 	i = 0;
 	pid = malloc(sizeof(*pid) * data->tab_size);
 	if (!pid)
 		return (EXIT_FAILURE);
-	parent_pid = fork();
+//	parent_pid = fork();
 	if (parent_pid == 0)
 	{
 		while (i != data->tab_size) //while we are not at the end of the prompt
