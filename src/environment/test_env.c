@@ -44,6 +44,7 @@ static void parse_cmd(t_data *data, t_command *tab, char *input)
 {
 	int i;
 	char **input_split;
+	(void)data;
 
 	i = 0;
 	input_split = ft_split(input, '|');
