@@ -6,7 +6,7 @@
 /*   By: iwaslet <iwaslet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 12:20:42 by csteylae          #+#    #+#             */
-/*   Updated: 2024/07/31 16:02:07 by csteylae         ###   ########.fr       */
+/*   Updated: 2024/08/01 17:02:38 by iwaslet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,11 +29,17 @@ enum e_tokens {
     QUOTE,
     D_QUOTE,
     WORD,
-    REDIR_IN, 
+    REDIR_IN,
     REDIR_OUT,
     REDIR_APP,
     REDIR_HEREDOC
-}	t_tokens;
+};
+
+typedef struct s_lexer
+{
+    char    *word;
+    int     operator;
+}   t_lexer;
 
 /**
  * A structure containing all the potential necessary informations about a redirction

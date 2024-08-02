@@ -2,8 +2,53 @@
 
 t_command   retrieve_cmd(char *input)
 {
-    t_array tab;
+    t_array *tab;
+    t_lexer	lexer;
+    int		i;
 
-    tab = init_array();
-     
+    i= 0;
+    tab = init_array(sizeof(t_token);
+    while (input[i])
+    {
+        if (isspace(input[i]) = 0)
+            i++;
+        else if (input[i] == '|')
+            lexer->operator = PIPE; //indiquer sa position qq part ? 
+		else if (input[i] == '<')
+			lexer->operator = IN;
+		else if (input[i] == '>')
+			lexer->operator = OUT;
+		else if (input[i] == '<<')
+			lexer->operator = HEREDOC;
+		else if (input[i] == '>>')
+			lexer->operator = APPEND;
+		else if (input[i] == '\"')
+		{
+			while (input[i] != '\"')
+			{
+				if (input[i] == '\0')
+					syntax error
+				stocker chaque charctere dans une string
+				i++;
+			}
+		}
+		else if (input[i] == '\'')
+		{
+			lexer->operator = QUOTE;
+			i++;
+			while (input[i] != '\'')
+			{
+				if (input[i] == '\0')
+					syntax error
+				stocker chaque charctere dans une string
+				i++;
+			}
+		}
+		i++;
+    }
+}
+
+int init_array()
+{
+
 }
