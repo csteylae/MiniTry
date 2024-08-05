@@ -66,7 +66,7 @@ static void	exec_error(char **path)
 
 char	*add_cmd_path(char *path, char *cmd)
 {
-	cmd = ft_strjoin(cmd, "/");
+	cmd = ft_strjoin("/", cmd);
 	if (!cmd)
 		return (NULL);
 	path = ft_strjoin(path, cmd);
@@ -75,7 +75,6 @@ char	*add_cmd_path(char *path, char *cmd)
 	free (cmd);
 	return (path);
 }
-
 
 /* 
  * first construct the path from the var_env PATH, add the "/cmd" to the path 
@@ -95,7 +94,6 @@ void	exec_command(t_data data, int n)
 		exec_error(path);
 	while (path[i])
 	{
-
 		path[i] = add_cmd_path(path[i], data.tab[n].cmd[0]);
 		if (!path[i])
 			exec_error(path);
@@ -107,6 +105,5 @@ void	exec_command(t_data data, int n)
 		i++;
 	}
 	//free data
-	ft_printf("TEST\n");
 	exec_error(path);
 }

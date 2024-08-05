@@ -16,10 +16,10 @@ SRCS= src/parsing/minitry.c \
 
 OBJS=$(SRCS:.c=.o)
 
-$(NAME) :$(OBJS)
+$(NAME) :$(OBJS) 
 	make bonus -C lib/Libft
 	make -C lib/ft_printf
-	$(CC) $(CFLAGS) $(OBJS) -o $(NAME) $(LIBFT) $(PRINTF_LIB) -lreadline
+	$(CC) $(CFLAGS) $(OBJS) $(LIBFT) $(PRINTF_LIB) -lreadline -o $(NAME)
 
 all : $(NAME)
 
