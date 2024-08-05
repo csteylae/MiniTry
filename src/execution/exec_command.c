@@ -12,27 +12,26 @@
 
 #include "../../inc/minitry.h"
 
-static char **get_absolute_path(char *cmd)
+static void	search_absolute_path(t_data data)
 {
-	char **path;
+	char *path;
 
-	path = malloc(sizeof(*path) * 1);
-	if (!path)
-		return (NULL);
-	path[0] = ft_strdup(cmd);
-	if (!path[0])
+	if (!ft_strchr(data.tab.cmd[0], '/'))
+		return;
+	path = data.tab.cmd[0];
+	if (access(path, X_OK) == 0)
 	{
-		free(path);
-		return (NULL);
+		if (execve(path, data.tab.cmd, data.env) < 0)
+			exec_error(data);
 	}
-	path[1] = NULL;
-	return (path);
+	//free(data);
+	exec_error(data);
 }
 
 static char **get_path(char **env, char *cmd)
 {
 	int	i;
-	char *path_env;
+	char *env_var_path;
 
 	if (ft_strchr(cmd, '/'))
 		return (get_absolute_path(cmd));
@@ -40,7 +39,7 @@ static char **get_path(char **env, char *cmd)
 	path_env = NULL;
 	while (env[i] && ft_strncmp("PATH=", env[i], 5))
 		i++;
-	path_env = env[i] + ft_strlen("PATH=");
+	env_var_path = env[i] + ft_strlen("PATH=");
 	return (ft_split(path_env, ':'));
 }
 
@@ -64,7 +63,7 @@ static void	exec_error(char **path)
 	exit(EXIT_FAILURE);
 }
 
-char	*add_cmd_path(char *path, char *cmd)
+static char	*add_cmd_path(char *path, char *cmd)
 {
 	cmd = ft_strjoin("/", cmd);
 	if (!cmd)
@@ -89,6 +88,7 @@ void	exec_command(t_data data, int n)
 	char	**path;
 
 	i = 0;
+	search_absolute_path(data);
 	path = get_path(data.env, data.tab[n].cmd[0]);
 	if (!path)
 		exec_error(path);
