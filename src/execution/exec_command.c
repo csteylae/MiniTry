@@ -12,69 +12,6 @@
 
 #include "../../inc/minitry.h"
 
-static void	search_absolute_path(t_data data)
-{
-	char *path;
-
-	if (!ft_strchr(data.tab.cmd[0], '/'))
-		return;
-	path = data.tab.cmd[0];
-	if (access(path, X_OK) == 0)
-	{
-		if (execve(path, data.tab.cmd, data.env) < 0)
-			exec_error(data);
-	}
-	//free(data);
-	exec_error(data);
-}
-
-static char **get_path(char **env, char *cmd)
-{
-	int	i;
-	char *env_var_path;
-
-	if (ft_strchr(cmd, '/'))
-		return (get_absolute_path(cmd));
-	i = 0;
-	path_env = NULL;
-	while (env[i] && ft_strncmp("PATH=", env[i], 5))
-		i++;
-	env_var_path = env[i] + ft_strlen("PATH=");
-	return (ft_split(path_env, ':'));
-}
-
-static void	exec_error(char **path)
-{
-	int	i;
-
-	i = 0;
-	ft_putstr_fd("error\n", STDERR_FILENO);
-	perror("error\n");
-	if (path && *path)
-	{
-		while (path[i])
-		{
-			free(path[i]);
-			i++;
-		}
-	}
-	//free data();
-	free(path);
-	exit(EXIT_FAILURE);
-}
-
-static char	*add_cmd_path(char *path, char *cmd)
-{
-	cmd = ft_strjoin("/", cmd);
-	if (!cmd)
-		return (NULL);
-	path = ft_strjoin(path, cmd);
-	if (!path)
-		return (NULL);
-	free (cmd);
-	return (path);
-}
-
 /* 
  * first construct the path from the var_env PATH, add the "/cmd" to the path 
  * then try to access the executable via access() with the X_OK flag 
@@ -82,28 +19,75 @@ static char	*add_cmd_path(char *path, char *cmd)
  * if no path was found we need to manage the error appropriately
  *
  * */
-void	exec_command(t_data data, int n)
+static void	exec_error(char **path, t_data *data, char *msg_error)
+{
+	if (path)
+		free_tab(path);
+	exit_error(data, msg_error);
+}
+
+static void	search_absolute_path(t_data *data, int n)
+{
+	char *path;
+
+	if (!ft_strchr(data->tab->cmd[0], '/'))
+		return;
+	path = data->tab->cmd[0];
+	if (access(path, X_OK) == 0)
+	{
+		if (execve(path, data->tab->cmd, data->env) < 0)
+			exec_error(NULL, data, "execve");
+	}
+	exec_error(NULL, data, data->tab[n].cmd[0]);
+}
+
+static char **get_path(char **env)
+{
+	int	i;
+	char *env_path;
+
+	i = 0;
+	env_path = NULL;
+	while (env[i] && ft_strncmp("PATH=", env[i], 5))
+		i++;
+	env_path = env[i] + ft_strlen("PATH=");
+	return (ft_split(env_path, ':'));
+}
+
+static char	*add_cmd_path(char *path, char *cmd)
+{
+	char *cmd_path; 
+
+	cmd_path = ft_strjoin("/", cmd, NO_MALLOC);
+	if (!cmd_path)
+		return (NULL);
+	path = ft_strjoin(path, cmd_path, BOTH_MALLOC);
+	if (!path)
+		return (NULL);
+	return (path);
+}
+
+void	exec_command(t_data *data, int n)
 {
 	int		i;
 	char	**path;
 
 	i = 0;
-	search_absolute_path(data);
-	path = get_path(data.env, data.tab[n].cmd[0]);
+	search_absolute_path(data, n);
+	path = get_path(data->env);
 	if (!path)
-		exec_error(path);
+		exec_error(path, data, "malloc");
 	while (path[i])
 	{
-		path[i] = add_cmd_path(path[i], data.tab[n].cmd[0]);
+		path[i] = add_cmd_path(path[i], data->tab[n].cmd[0]);
 		if (!path[i])
-			exec_error(path);
+			exec_error(path, data, "malloc");
 		if (access(path[i], X_OK) == 0)
 		{
-			if (execve(path[i], data.tab[n].cmd, data.env) < 0)
-				exec_error(path);
+			if (execve(path[i], data->tab[n].cmd, data->env) < 0)
+				exec_error(path, data, "execve");
 		}
 		i++;
 	}
-	//free data
-	exec_error(path);
+	exec_error(path, data, data->tab->cmd[0]);
 }

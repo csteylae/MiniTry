@@ -25,6 +25,7 @@ static char	*add_env_var(char *str)
 	return (new_env_var);
 }
 
+
 char	**init_env(char **envp)
 {
 	char **new_env;
@@ -45,5 +46,6 @@ char	**init_env(char **envp)
 		new_env[i] = add_env_var(envp[i]);
 		i++;
 	}
+	new_env[i] = NULL;
 	return (new_env);
 }

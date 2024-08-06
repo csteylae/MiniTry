@@ -16,18 +16,18 @@ int	exec_prompt(t_data *data)
 {
 	int	i;
 	int	*pid;
-	int	pipe_fd[2];
+//	int	pipe_fd[2];
 
 	i = 0;
 	pid = malloc(sizeof(*pid) * data->tab_size);
 	if (!pid)
 		return (EXIT_FAILURE);
-	while (i != data->tab_size) //while we are not at the end of the prompt
+	while (i != data->tab_size)
 	{
-		pipe(pipe_fd);
+//		pipe(pipe_fd);
 		pid[i] = fork();
 		if (pid[i] == 0)
-			exec_command(*data, i);
+			exec_command(data, i);
 		i++;
 	}
 	while (i != 0)
@@ -35,6 +35,5 @@ int	exec_prompt(t_data *data)
 		wait(NULL);
 		i--;
 	}
-	//free data->cmd
 	return (0);
 }

@@ -65,10 +65,7 @@ static	t_command *pseudo_parsing(t_data *data, char *input)
 	printf("nb of cmd : %d\n", data->tab_size);
 	tab	= malloc(sizeof(*tab) * (nb_of_cmd));
 	if (!tab)
-	{
-		ft_putstr_fd("error\n", 1);
-		exit(EXIT_FAILURE);
-	}
+		exit_error(data, "malloc");
 	set_all_members_to_NULL(tab, nb_of_cmd);
 	parse_cmd(data, tab, input);
 	return (tab);

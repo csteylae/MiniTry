@@ -54,7 +54,7 @@ typedef struct s_redirect
 {
 	int					fd;
 	char				*filename;
-	char				*heredoc_delimiter;
+	char				*hd_delimiter;
 }   t_redirect;
 
 /**
@@ -78,14 +78,16 @@ typedef struct s_command
 /**
  *	A big structure that will contains all important information to parse from parsing to execution. 
  *
- *	data->envp	contains the envp variable
- *	data->tab	contains the array of commands parsed from readline()
+ *	data.envp	contains the envp variable
+ *	data.tab	contains the array of commands parsed from readline()
+ *	data.tab 	the size of the array. Is the nb of commands passed
  */
 typedef struct s_data
 {
     char		**env;
     t_command	*tab;
 	int			tab_size;
+	int			error; //still need to be constructed. To indicate if an error has occured
 }   t_data;
 
 typedef struct s_array
