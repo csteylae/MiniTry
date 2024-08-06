@@ -18,7 +18,7 @@ void	free_tab_char(char **tab)
 	}
 }
 
-void	free_redirection_tab(t_redirect *redir_tab)
+void	free_tab_redirect(t_redirect *redir_tab)
 {
 	int	i;
 
@@ -42,18 +42,18 @@ void	free_cmd(t_command *cmd)
 	if (cmd->cmd)
 		free_tab_char(cmd->cmd);
 	if (cmd->in)
-		free_redirection_tab(cmd->in);
+		free_tab_redirect(cmd->in);
 	if (cmd->out)
-		free_redirection_tab(cmd->out);
+		free_tab_redirect(cmd->out);
 	if (cmd->heredoc)
-		free_redirection_tab(cmd->heredoc);
+		free_tab_redirect(cmd->heredoc);
 	if(cmd->append)
-		free_redirection_tab(cmd->append);
+		free_tab_redirect(cmd->append);
 	free(cmd);
 	cmd = NULL;
 }
 
-void	free_tab_cmd(int size, t_cmd *tab)
+void	free_tab_cmd(int size, t_command *tab)
 {
 	int	i;
 
@@ -75,9 +75,9 @@ void	free_data(t_data *data)
 	if (!data)
 		return;
 	if (data->tab)
-		free_cmd_tab(data->tab);
+		free_tab_cmd(data->tab);
 	if (data->env)
-		free_tab(data->env);
+		free_tab_char(data->env);
 	data = NULL;
 }
 

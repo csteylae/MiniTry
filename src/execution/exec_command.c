@@ -22,7 +22,7 @@
 static void	exec_error(char **path, t_data *data, char *msg_error)
 {
 	if (path)
-		free_tab(path);
+		free_tab_char(path);
 	exit_error(data, msg_error);
 }
 

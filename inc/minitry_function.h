@@ -35,7 +35,7 @@ int		exec_prompt(t_data *data); /* file exec_prompt.c */
 /* repo utils */
 //file free_struct.c :
 void	free_tab_char(char **tab);
-void	free_redirection_tab(t_redirect *tab);
+void	free_tab_redirect(t_redirect *tab);
 void	free_cmd(t_command *cmd);
 void	free_tab_cmd(int size, t_command *tab);
 void	free_data(t_data *data);

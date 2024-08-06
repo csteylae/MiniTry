@@ -28,7 +28,7 @@ int read_the_input(char **envp)
 		test_env(&data, input); // simple tests that wont disturb your workflow :)
 		add_history(input);
         free(input);
-		free_tab_cmd(&data.tab);
+		free_tab_cmd(data.tab_size, data.tab);
     }
 	free_data(&data);
     return (0);
