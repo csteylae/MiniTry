@@ -6,28 +6,28 @@
 /*   By: csteylae <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 16:07:13 by csteylae          #+#    #+#             */
-/*   Updated: 2024/08/07 12:07:24 by csteylae         ###   ########.fr       */
+/*   Updated: 2024/08/07 14:51:28 by csteylae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minitry.h"
 
-int	exec_prompt(t_data *data)
+int	exec_prompt(t_shell *shell)
 {
 	int	i;
 	int	*pid;
 //	int	pipe_fd[2];
 
 	i = 0;
-	pid = malloc(sizeof(*pid) * data->tab_size);
+	pid = malloc(sizeof(*pid) * shell->tab_size);
 	if (!pid)
 		return (EXIT_FAILURE);
-	while (i != data->tab_size)
+	while (i != shell->tab_size)
 	{
 //		pipe(pipe_fd);
 		pid[i] = fork();
 		if (pid[i] == 0)
-			exec_command(data, i);
+			exec_command(shell, i);
 		i++;
 	}
 	while (i != 0)
@@ -36,6 +36,6 @@ int	exec_prompt(t_data *data)
 		i--;
 	}
 	free(pid);
-	free_tab_cmd(data->tab_size, data->tab);
+	free_tab_cmd(shell->tab_size, shell->tab);
 	return (0);
 }

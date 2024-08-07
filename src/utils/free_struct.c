@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   free_struct.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: csteylae <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/08/07 14:52:53 by csteylae          #+#    #+#             */
+/*   Updated: 2024/08/07 14:53:13 by csteylae         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../inc/minitry.h"
 
 void	free_tab_char(char **tab)
@@ -66,13 +78,13 @@ void	free_tab_cmd(int size, t_command *tab)
 	tab = NULL;
 }
 
-void	free_data(t_data *data)
+void	free_shell(t_shell *shell)
 {
-	if (!data)
+	if (!shell)
 		return;
-	if (data->tab)
-		free_tab_cmd(data->tab_size, data->tab);
-	if (data->env)
-		free_tab_char(data->env);
-	data = NULL;
+	if (shell->tab)
+		free_tab_cmd(shell->tab_size, shell->tab);
+	if (shell->env)
+		free_tab_char(shell->env);
+	shell = NULL;
 }

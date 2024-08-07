@@ -6,7 +6,7 @@
 /*   By: iwaslet <iwaslet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 12:20:42 by csteylae          #+#    #+#             */
-/*   Updated: 2024/08/01 17:02:38 by iwaslet          ###   ########.fr       */
+/*   Updated: 2024/08/07 14:48:33 by csteylae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,17 +78,17 @@ typedef struct s_command
 /**
  *	A big structure that will contains all important information to parse from parsing to execution. 
  *
- *	data.envp	contains the envp variable
- *	data.tab	contains the array of commands parsed from readline()
- *	data.tab 	the size of the array. Is the nb of commands passed
+ *	shell.envp	contains the envp variable
+ *	shell.tab	contains the array of commands parsed from readline()
+ *	shell.tab 	the size of the array. Is the nb of commands passed
  */
-typedef struct s_data
+typedef struct s_shell
 {
     char		**env;
     t_command	*tab;
 	int			tab_size;
 	int			error; //still need to be constructed. To indicate if an error has occured
-}   t_data;
+}   t_shell;
 
 typedef struct s_array
 {
