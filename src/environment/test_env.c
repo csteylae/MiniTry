@@ -6,7 +6,7 @@
 /*   By: csteylae <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 12:09:39 by csteylae          #+#    #+#             */
-/*   Updated: 2024/08/01 18:48:01 by csteylae         ###   ########.fr       */
+/*   Updated: 2024/08/07 12:13:57 by csteylae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ static void parse_cmd(t_data *data, t_command *tab, char *input)
 		tab[i].cmd = ft_split(input_split[i], ' ');
 		i++;
 	}
+	free_tab_char(input_split);
 }
 
 static	t_command *pseudo_parsing(t_data *data, char *input)
@@ -62,7 +63,7 @@ static	t_command *pseudo_parsing(t_data *data, char *input)
 
 	nb_of_cmd = count_nb_of_cmd(input);
 	data->tab_size = nb_of_cmd;
-	printf("nb of cmd : %d\n", data->tab_size);
+//	printf("nb of cmd : %d\n", data->tab_size);
 	tab	= malloc(sizeof(*tab) * (nb_of_cmd));
 	if (!tab)
 		exit_error(data, "malloc");

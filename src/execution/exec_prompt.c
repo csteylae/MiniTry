@@ -6,7 +6,7 @@
 /*   By: csteylae <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 16:07:13 by csteylae          #+#    #+#             */
-/*   Updated: 2024/08/01 18:24:42 by csteylae         ###   ########.fr       */
+/*   Updated: 2024/08/07 12:07:24 by csteylae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,5 +35,7 @@ int	exec_prompt(t_data *data)
 		wait(NULL);
 		i--;
 	}
+	free(pid);
+	free_tab_cmd(data->tab_size, data->tab);
 	return (0);
 }

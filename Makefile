@@ -34,6 +34,7 @@ fclean : clean
 	make fclean -C lib/Libft
 	make fclean -C lib/ft_printf
 	rm -rf  $(NAME)
+	rm -rf *.dSYM
 
 re: fclean all
 

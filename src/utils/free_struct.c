@@ -49,7 +49,6 @@ void	free_cmd(t_command *cmd)
 		free_tab_redirect(cmd->heredoc);
 	if(cmd->append)
 		free_tab_redirect(cmd->append);
-	free(cmd);
 	cmd = NULL;
 }
 
@@ -60,7 +59,7 @@ void	free_tab_cmd(int size, t_command *tab)
 	i = 0;
 	while (i != size)
 	{
-		free_cmd(tab->cmd[i]);
+		free_cmd(&tab[i]);
 		i++;
 	}
 	free(tab);
@@ -69,21 +68,11 @@ void	free_tab_cmd(int size, t_command *tab)
 
 void	free_data(t_data *data)
 {
-	int	i;
-
-	i = 0;
 	if (!data)
 		return;
 	if (data->tab)
-		free_tab_cmd(data->tab);
+		free_tab_cmd(data->tab_size, data->tab);
 	if (data->env)
 		free_tab_char(data->env);
 	data = NULL;
-}
-
-void	exit_error(t_data *data, char *error_msg)
-{
-	perror(error_msg);
-	free_data(data);
-	exit(EXIT_FAILURE);
 }
