@@ -14,14 +14,14 @@ t_command   retrieve_cmd(char *input)
             i++;
         else if (input[i] == '|')
             lexer->operator = PIPE; //indiquer sa position qq part ? 
-		else if (input[i] == '<')
-			lexer->operator = IN;
-		else if (input[i] == '>')
-			lexer->operator = OUT;
 		else if (input[i] == '<<')
 			lexer->operator = HEREDOC;
 		else if (input[i] == '>>')
 			lexer->operator = APPEND;
+		else if (input[i] == '<')
+			lexer->operator = IN;
+		else if (input[i] == '>')
+			lexer->operator = OUT;
 		else if (input[i] == '\"')
 		{
 			while (input[i] != '\"')

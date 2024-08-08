@@ -46,4 +46,3 @@ int main(int ac, char **av, char **envp)
     read_the_input(envp);
     return (0);
 }
-
