@@ -58,28 +58,31 @@ t_darray *init_array()
 {
 	t_darray	darray;
 
-	darray.content = malloc(sizeof(t_lexer));
+	// darray = malloc(sizeof(t_darray));
+	// if (!darray)
+	// 	return ((void*)NULL);
+	darray.content = malloc(sizeof(t_lexer)); //initier un lexer par bloc ?
 	if (!darray.content)
 		return ((void*)NULL);
 	return (&darray);
 }
 
-int	append_array()
+int	append_array(t_darray darray)
 {
 
 }
 
-int	free_temp_array()
+void	free_temp_array(t_darray darray)
+{
+	free(darray.content);
+}
+
+int	realloc_array(t_darray darray)
 {
 
 }
 
-int	realloc_array()
-{
-
-}
-
-int	at_index()
+int	at_index(t_darray darray)
 {
 
 }
