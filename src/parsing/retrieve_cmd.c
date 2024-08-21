@@ -9,7 +9,7 @@ t_command   retrieve_cmd(char *input)
 
     i = 0;
 	j = 0;
-    tab = init_array();
+    tab = init_array(1, );
 	if (!tab)
 		return ((void)NULL);
     while (input[i]) //identifier aussi les WORDS
@@ -54,14 +54,18 @@ t_command   retrieve_cmd(char *input)
     }
 }
 
-t_darray *init_array()
+t_darray *init_array(int amount, size_t type_size)
 {
 	t_darray	darray;
 
 	// darray = malloc(sizeof(t_darray));
 	// if (!darray)
 	// 	return ((void*)NULL);
-	darray.content = malloc(sizeof(t_lexer)); //initier un lexer par bloc ?
+	darray.type_size = type_size;
+	darray.block = type_size;
+	darray.size = amount;
+	darray.max_size = type_size * darray.size;
+	darray.content = malloc(sizeof(t_lexer)*amount); //initier un lexer par bloc ?
 	if (!darray.content)
 		return ((void*)NULL);
 	return (&darray);
