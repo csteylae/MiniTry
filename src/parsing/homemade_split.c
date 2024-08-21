@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Homemade_Split.c                                   :+:      :+:    :+:   */
+/*   homemade_split.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: iwaslet <iwaslet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 19:48:46 by iwaslet           #+#    #+#             */
-/*   Updated: 2024/07/24 15:54:16 by iwaslet          ###   ########.fr       */
+/*   Updated: 2024/08/21 15:24:29 by iwaslet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,3 +91,6 @@ delete(delete*(void*))              if (delete != NULL) { use delete ft on all e
 
 void* content = [][][][][]       = 5 mem blocks of size type_size (e.g. int or token)
 */
+
+
+// hello < in
