@@ -17,7 +17,7 @@
 #include "minitry_lib.h"
 
 /**
- * An enum to identify the different type of operator, including  redirection that can affect a command
+ * An enum to identify the different type of redirection that can affect a command
  *
  * REDIR_IN :	<
  * REDIR_OUT:	>	
@@ -46,7 +46,7 @@ typedef struct s_lexer
  *
  * int fd (optionnal):				The file descriptor that can be associated to a redirection (such as "fd< filename")
  * char *filename :					The name of the file that redirects the input or output stream to read from or write to.
- * heredoc_delimiter (optionnal) :	Only for the case of REDIR_HEREDOC (noted "<< name_of_delimiter"). In all other case it will be set to NULL.
+ * heredoc_delimiter (optionnal) :	Only for the case of REDIR_HEREDOC (noted "<< name_of_delimiter"). In all other case of redirection it will be set to NULL.
  *
  *  This struct and all its members are optional 
  */

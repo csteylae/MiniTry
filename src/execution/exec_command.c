@@ -30,12 +30,12 @@ static void	search_absolute_path(t_shell *shell, int n)
 {
 	char *path;
 
-	if (!ft_strchr(shell->tab->cmd[0], '/'))
+	if (!ft_strchr(shell->tab[n]->cmd[0], '/'))
 		return;
-	path = shell->tab->cmd[0];
+	path = shell->tab[n]->cmd[0];
 	if (access(path, X_OK) == 0)
 	{
-		if (execve(path, shell->tab->cmd, shell->env) < 0)
+		if (execve(path, shell->tab[n]->cmd, shell->env) < 0)
 			exec_error(NULL, shell, "execve");
 	}
 	exec_error(NULL, shell, shell->tab[n].cmd[0]);

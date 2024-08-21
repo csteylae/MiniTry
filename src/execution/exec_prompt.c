@@ -15,27 +15,23 @@
 int	exec_prompt(t_shell *shell)
 {
 	int	i;
-	int	*pid;
+	int	pid;
+	int	*fd;
 //	int	pipe_fd[2];
 
-	i = 0;
-	pid = malloc(sizeof(*pid) * shell->tab_size);
-	if (!pid)
-		return (EXIT_FAILURE);
-	while (i != shell->tab_size)
-	{
-//		pipe(pipe_fd);
-		pid[i] = fork();
-		if (pid[i] == 0)
-			exec_command(shell, i);
-		i++;
-	}
-	while (i != 0)
-	{
-		wait(NULL);
-		i--;
-	}
-	free(pid);
+	if (shell->tab_size > 1)
+		exec_pipeline(shell);
+	//check if pipeline
+	// else check if redirections
+	// check if builtins
+	//if not pipeline nor builtin, idk just try to exec somthing ? Should we check if its just a variable assignment ?
+	pid = fork();
+	if (pid < 0)
+	exit_error(shell, "fork");
+	if (pid[i] == 0)
+		exec_command(shell, i);
+	wait(NULL);
+	//need to register the exit status of last process should be attached to shell
 	free_tab_cmd(shell->tab_size, shell->tab);
 	return (0);
 }

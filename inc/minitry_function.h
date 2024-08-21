@@ -22,7 +22,7 @@ char	**init_env(char **envp);
 
 /*file src/environment/test_env.c */
 void	ft_print_cmd(t_shell *shell);
-void	test_env(t_shell *shell, char *input); //function added to your minitry.c to avoid the pollution of minitry.h
+void	test_env(t_shell *shell, char *input); //function added to your minitry.c to avoid the pollution of that file 
 
 /* repo builtins */
 void	exec_cd(char *cmd);

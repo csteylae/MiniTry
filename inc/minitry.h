@@ -18,4 +18,7 @@
 #include "minitry_struct.h"
 #include "minitry_function.h"
 
+# define READ_FROM 0
+# define WRITE_TO 1
+
 #endif
