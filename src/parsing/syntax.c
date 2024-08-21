@@ -53,3 +53,10 @@ int pars_it(char *input)
         // ">/< filename" toujours
     }
 }
+
+int ft_isspace(char c)
+{
+    if (c = ' ') //inclure les autres whitespace ?
+        return (0);
+    return (1);
+}

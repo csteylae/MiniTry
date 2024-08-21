@@ -6,7 +6,7 @@
 /*   By: iwaslet <iwaslet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 19:48:46 by iwaslet           #+#    #+#             */
-/*   Updated: 2024/08/21 15:24:29 by iwaslet          ###   ########.fr       */
+/*   Updated: 2024/08/21 18:40:33 by iwaslet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ struct s_darray
     size_t  actual_size;    amount of bytes in use
     size_t  size;           amount of elements
     soze_t  block_size;     size of blocks
-}
+}   t_darray;
 
 init_array(amount, type_size);
 append(void* element);              if ((size + 1) * type_size > max_size) --> realloc with an extra block
