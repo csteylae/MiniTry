@@ -12,6 +12,68 @@ The following is a brief description of the shell’s operation when it reads an
 7. Optionally waits for the command to complete and collects its exit status ([Exit Status](https://www.gnu.org/software/bash/manual/bash.html#Exit-Status)).
 
 
+#### Grammar
+
+%token WORD
+%token PIPE			' | '
+%token QUOTE		' ' '
+%token D_QUOTE		' " '
+%token REDIR_IN		' < ',
+%token REDIR_OUT	' > '
+%token REDIR_APP	' >> '
+%token REDIR_HEREDOC' <<' 
+
+
+<NUMBER> ::= <DIGIT>
+           | <NUMBER> <DIGIT>
+
+<WORD> ::= <ALPHA>
+         | <WORD> <ALPHA>
+         | <WORD> '_'
+
+<ASSIGNMENT-WORD> ::= <WORD> '=' <WORD>
+
+<REDIRECTION> ::=  '>' <WORD>
+                |  '<' <WORD>
+                |  <NUMBER> '>' <WORD>
+                |  <NUMBER> '<' <WORD>
+                |  '>>' <WORD>
+                |  <NUMBER> '>>' <WORD>
+                |  '<<' <WORD>
+                |  <NUMBER> '<<' <WORD>
+
+
+<SIMPLE-COMMAND-ELEMENT> ::= <WORD>
+                          |  <ASSIGNMENT-WORD>
+                          |  <REDIRECTION>
+
+<REDIRECTION-LIST> ::= <REDIRECTION>
+                    |  <REDIRECTION-LIST> <REDIRECTION>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 ![flowchart](draws/flowchart.drawio.svg)
 
