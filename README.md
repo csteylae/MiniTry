@@ -75,4 +75,6 @@ The following is a brief description of the shell’s operation when it reads an
 
 <PIPELINE-COMMAND> ::= <PIPELINE> '|' <PIPELINE>
                     | <COMMAND>
-
+<PIPELINE> ::=
+          <PIPELINE> '|' <NEWLINE-LIST> <PIPELINE>
+       |  <COMMAND>

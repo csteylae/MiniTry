@@ -6,7 +6,7 @@
 /*   By: csteylae <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 12:00:49 by csteylae          #+#    #+#             */
-/*   Updated: 2024/08/07 14:49:07 by csteylae         ###   ########.fr       */
+/*   Updated: 2024/09/04 15:04:58 by csteylae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	test_env(t_shell *shell, char *input); //function added to your minitry.c t
 
 /* repo builtins */
 void	exec_cd(char *cmd);
-void	exec_env(char *str, char **envp);
+void	exec_env(t_shell *shell);
 
 /* repo execution */
 void	exec_command(t_shell *shell, int nb); /*file exec_command.c */

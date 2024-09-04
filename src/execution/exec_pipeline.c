@@ -1,8 +1,19 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   exec_pipeline.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: csteylae <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/09/04 13:37:24 by csteylae          #+#    #+#             */
+/*   Updated: 2024/09/04 14:09:34 by csteylae         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../inc/minitry.h"
 
 static void	redirect_io(int new_fd_in, int new_fd_out)
 {
-	//should add the check errors 
 	dup2(STDIN_FILENO, new_fd_in);
 	dup2(STDOUT_FILENO, new_fd_out);
 }
