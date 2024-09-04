@@ -14,12 +14,12 @@ The following is a brief description of the shell’s operation when it reads an
 
 #### Grammar
 #explanations bnf : 
-<...> : nonterminal, an abstract symbol that rpz a grammatical category (such as sentence, an instruction, an expression, etc)
+"<...> : nonterminal, an abstract symbol that rpz a grammatical category (such as sentence, an instruction, an expression, etc)
 variable ::= a | b | c : terminal : basic symbol's language. They cannot be subdivised (such as keywords, specific char, generally written as is in the rules)
 definitions (productions rules) : defines how non-terminals can be transformed into terminals or into other non-terminals. ::= is equal to -> and means "is defined as"
 ex : <expression> ::= <terme> "+" <expression> | <terme> : means that expression can be defined as terme followed by an "+" and other expression or simply as a terme
 | : there is differents possible definitions 
-recursivity : a nonterminals can be defined by itself
+recursivity : a nonterminals can be defined by itself"
 
 
 %token WORD
@@ -70,30 +70,6 @@ recursivity : a nonterminals can be defined by itself
 
 <PIPELINE-COMMAND> ::= <PIPELINE> '| <PIPELINE>
 					| <COMMAND>	
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 ![flowchart](draws/flowchart.drawio.svg)
 
