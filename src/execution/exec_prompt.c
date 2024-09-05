@@ -6,7 +6,7 @@
 /*   By: csteylae <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 16:07:13 by csteylae          #+#    #+#             */
-/*   Updated: 2024/09/04 17:50:17 by csteylae         ###   ########.fr       */
+/*   Updated: 2024/09/05 12:46:51 by csteylae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,12 @@
 
 void	exec_heredoc(t_shell *shell, t_redirect *heredoc)
 {
+	(void) shell;
+	(void)heredoc;
 	return;
 }
 
-void	open_files(t_shell *shell, int index)
+void	open_file(t_shell *shell, int index)
 {
 	int	i;
 	char *in;
@@ -33,7 +35,7 @@ void	perform_redirections(t_shell *shell, int index)
 	heredoc = shell->tab[index].heredoc;
 	if (heredoc)
 		exec_heredoc(shell, heredoc);
-	open_files(shell, index);
+	open_file(shell, index);
 }
 
 bool	exec_builtin(t_shell *shell)
@@ -41,7 +43,7 @@ bool	exec_builtin(t_shell *shell)
 	char **cmd;
 
 	cmd = shell->tab->cmd;
-	if (ft_strncmp(cmd[0], "env", ft_strlen(cmd[0])))
+	if (!ft_strncmp(cmd[0], "env", ft_strlen(cmd[0])))
 		exec_env(shell);
 //	else if (ft_strncmp(cmd[0], "cd", ft_strlen(cmd[0])))
 	return (false);
@@ -67,12 +69,10 @@ void	exec_simple_cmd(t_shell *shell)
 int	exec_prompt(t_shell *shell)
 {
 	int	nb;
-	
+
 	nb = shell->tab_size;
+	ft_printf("%s\n", nb);
 	if (nb == 0)
 		exec_simple_cmd(shell);
-//	else
-//		exec_pipeline(shell);
-	//free command struct
 	return (0);
 }

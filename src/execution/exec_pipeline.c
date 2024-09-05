@@ -6,7 +6,7 @@
 /*   By: csteylae <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 13:37:24 by csteylae          #+#    #+#             */
-/*   Updated: 2024/09/04 14:09:34 by csteylae         ###   ########.fr       */
+/*   Updated: 2024/09/05 12:43:22 by csteylae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,30 +37,32 @@ void	exec_pipeline(t_shell *shell)
 {
 	int	i;
 	int	pipe_fd[2];
-	int	*children_pid;
+	int	*child_pid;
 	int	prev_fd;
 
 	i = 0;
-	children_pid = malloc(sizeof(int) * shell->tab_size);
-	if (!children_pid)
+	child_pid = malloc(sizeof(int) * shell->tab_size);
+	if (!child_pid)
 		exit_error(shell, "malloc");
 	prev_fd = 0;
-	while (i != tab_size)
+	while (i != shell->tab_size) //while command arent executed
 	{
 		//open files for redirection
 		pipe(pipe_fd);
 		if (pipe_fd < 0)
 			exit_error(shell, "pipe");
-		children_pid[i] = fork();
-		if (children_pid[i] < 0)
+		child_pid[i] = fork();
+		if (child_pid[i] < 0)
 			exit_error(shell, "fork");
-		if (children_pid[i] == 0)
+		if (child_pid[i] == 0)
 		{
 			close_fd(shell, i, pipe_fd, prev_fd);
 			redirect_io();
 			exec_cmd();
 		}
-		close();
+		close(pipe_fd[WRITE_TO]);
+		prev_fd = pipe_fd[READ_FROM];
 		i++;
 	}
+//	wait_children(child_pid);
 }

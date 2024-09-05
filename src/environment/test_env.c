@@ -6,7 +6,7 @@
 /*   By: csteylae <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 12:09:39 by csteylae          #+#    #+#             */
-/*   Updated: 2024/08/07 14:50:50 by csteylae         ###   ########.fr       */
+/*   Updated: 2024/09/05 12:44:41 by csteylae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ static	t_command *pseudo_parsing(t_shell *shell, char *input)
 
 	nb_of_cmd = count_nb_of_cmd(input);
 	shell->tab_size = nb_of_cmd;
-//	printf("nb of cmd : %d\n", shell->tab_size);
+	printf("nb of cmd : %d\n", shell->tab_size);
 	tab	= malloc(sizeof(*tab) * (nb_of_cmd));
 	if (!tab)
 		exit_error(shell, "malloc");
@@ -74,8 +74,7 @@ static	t_command *pseudo_parsing(t_shell *shell, char *input)
 
 void	test_env(t_shell *shell, char *input)
 {
-//	exec_cd("src/execution");
-	exec_env(input, shell->env);
+	exec_cd("src/execution");
 	shell->tab = pseudo_parsing(shell, input);
 	exec_prompt(shell);
 }
