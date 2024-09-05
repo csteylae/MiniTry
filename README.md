@@ -20,7 +20,7 @@ The following is a brief description of the shell’s operation when it reads an
 
 ![flowchart](draws/doc_tokenization.drawio.svg)
 
-![flowchart] (draws/execution.drawio.svg)
+![flowchart](draws/execution.drawio.svg)
 #### Grammar
 # Explanations BNF:
 - `<...>`: nonterminal, an abstract symbol representing a grammatical category (such as a sentence, an instruction, an expression, etc.)
