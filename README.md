@@ -19,7 +19,7 @@ The following is a brief description of the shell’s operation when it reads an
 #### 3. QUOTES / D_QUOTES
 
 ![flowchart](draws/doc_tokenization.drawio.svg)
-
+### Execution workflow (in progress)
 ![flowchart](draws/execution.drawio.svg)
 #### Grammar
 # Explanations BNF:
