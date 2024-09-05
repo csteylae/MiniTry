@@ -6,7 +6,7 @@
 /*   By: csteylae <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 13:37:24 by csteylae          #+#    #+#             */
-/*   Updated: 2024/09/05 15:32:30 by csteylae         ###   ########.fr       */
+/*   Updated: 2024/09/05 16:22:26 by csteylae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,6 @@ static void	redirect_pipeline(t_shell *shell, int i, int pipe_fd[2], int fd_prev
 	{
 		close(pipe_fd[WRITE_TO]);
 		redirect_io(shell, fd_prev, STDOUT_FILENO);
-		close(fd_prev);
 	}
 	else
 	{
