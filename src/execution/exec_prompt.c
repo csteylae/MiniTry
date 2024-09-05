@@ -5,8 +5,20 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: csteylae <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/09/05 15:23:01 by csteylae          #+#    #+#             */
+/*   Updated: 2024/09/05 15:23:06 by csteylae         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   exec_prompt.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: csteylae <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 16:07:13 by csteylae          #+#    #+#             */
-/*   Updated: 2024/09/05 12:46:51 by csteylae         ###   ########.fr       */
+/*   Updated: 2024/09/05 15:08:57 by csteylae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +58,9 @@ bool	exec_builtin(t_shell *shell)
 	if (!ft_strncmp(cmd[0], "env", ft_strlen(cmd[0])))
 		exec_env(shell);
 //	else if (ft_strncmp(cmd[0], "cd", ft_strlen(cmd[0])))
-	return (false);
+	else
+		return (false);
+	return (true);
 }
 
 void	exec_simple_cmd(t_shell *shell)
@@ -55,7 +69,7 @@ void	exec_simple_cmd(t_shell *shell)
 	char	**cmd;
 
 	cmd = shell->tab->cmd;
-	perform_redirections(shell, 0);
+//	perform_redirections(shell, 0);
 	if (exec_builtin(shell))
 		return;
 	pid = fork();
@@ -71,8 +85,9 @@ int	exec_prompt(t_shell *shell)
 	int	nb;
 
 	nb = shell->tab_size;
-	ft_printf("%s\n", nb);
-	if (nb == 0)
+	if (nb == 1)
 		exec_simple_cmd(shell);
+	else
+		exec_pipeline(shell);
 	return (0);
 }
