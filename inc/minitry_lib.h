@@ -6,7 +6,7 @@
 /*   By: iwaslet <iwaslet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 12:02:27 by csteylae          #+#    #+#             */
-/*   Updated: 2024/08/01 15:23:20 by iwaslet          ###   ########.fr       */
+/*   Updated: 2024/09/04 13:43:57 by csteylae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,5 +24,6 @@
 # include <readline/history.h>
 # include <sys/types.h>
 # include <sys/wait.h>
+# include <stdbool.h>
 
 #endif 

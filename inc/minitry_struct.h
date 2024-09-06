@@ -6,7 +6,7 @@
 /*   By: iwaslet <iwaslet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 12:20:42 by csteylae          #+#    #+#             */
-/*   Updated: 2024/09/05 16:05:19 by iwaslet          ###   ########.fr       */
+/*   Updated: 2024/09/06 13:32:21 by iwaslet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ typedef struct s_lexer
  *
  *  This struct and all its members are optional 
  */
+
 typedef struct s_redirect 
 {
 	int					fd;
@@ -92,6 +93,7 @@ typedef struct s_shell
 	t_command	*tab;
 	int			tab_size;
 	int			error;
+	int			exit_status;
 }	t_shell;
 
 typedef struct s_darray

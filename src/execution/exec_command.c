@@ -6,7 +6,7 @@
 /*   By: csteylae <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/01 18:34:48 by csteylae          #+#    #+#             */
-/*   Updated: 2024/08/07 14:51:18 by csteylae         ###   ########.fr       */
+/*   Updated: 2024/09/05 15:24:55 by csteylae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,12 +30,12 @@ static void	search_absolute_path(t_shell *shell, int n)
 {
 	char *path;
 
-	if (!ft_strchr(shell->tab[n]->cmd[0], '/'))
+	if (!ft_strchr(shell->tab[n].cmd[0], '/'))
 		return;
-	path = shell->tab[n]->cmd[0];
+	path = shell->tab[n].cmd[0];
 	if (access(path, X_OK) == 0)
 	{
-		if (execve(path, shell->tab[n]->cmd, shell->env) < 0)
+		if (execve(path, shell->tab[n].cmd, shell->env) < 0)
 			exec_error(NULL, shell, "execve");
 	}
 	exec_error(NULL, shell, shell->tab[n].cmd[0]);
@@ -72,6 +72,7 @@ void	exec_command(t_shell *shell, int n)
 	int		i;
 	char	**path;
 
+	ft_printf("ok\n");
 	i = 0;
 	search_absolute_path(shell, n);
 	path = get_path(shell->env);

@@ -13,12 +13,13 @@ SRCS= src/parsing/minitry.c \
 	  src/environment/test_env.c \
 	  src/execution/exec_command.c \
 	  src/execution/exec_prompt.c \
+	  src/execution/exec_pipeline.c \
 	  src/utils/free_struct.c \
 	  src/utils/exit_error.c \
 
 OBJS=$(SRCS:.c=.o)
 
-$(NAME) :$(OBJS) 
+$(NAME) :$(OBJS)
 	make bonus -C lib/Libft
 	make -C lib/ft_printf
 	$(CC) $(CFLAGS) $(OBJS) $(LIBFT) $(PRINTF_LIB) -lreadline -o $(NAME)
