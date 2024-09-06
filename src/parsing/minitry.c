@@ -26,7 +26,7 @@ int read_the_input(char **envp)
     while (1)
     {
         input = readline("gib comand pliz> ");
-        if (!strlen(input))
+        if (!ft_strlen(input))
             continue;
 	//	data.tab = retrieve_cmd(input); doesnt compile for the moment 
 		test_env(data, input); // simple tests that wont disturb your workflow :)

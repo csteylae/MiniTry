@@ -6,7 +6,7 @@
 /*   By: csteylae <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 13:37:24 by csteylae          #+#    #+#             */
-/*   Updated: 2024/09/05 16:22:26 by csteylae         ###   ########.fr       */
+/*   Updated: 2024/09/06 11:43:52 by csteylae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,18 @@
 
 static void	redirect_io(t_shell *shell, int new_fd_in, int new_fd_out)
 {
-	if (dup2(STDIN_FILENO, new_fd_in) < 0)
-		exit_error(shell, "dup2");
-	if (dup2(STDOUT_FILENO, new_fd_out) < 0)
-		exit_error(shell, "dup2");
+	if (new_fd_in >= 0)
+	{
+		if (dup2(STDIN_FILENO, new_fd_in) < 0)
+			exit_error(shell, "dup2");
+		close(new_fd_in);
+	}
+	if (new_fd_out >= 0)
+	{
+		if (dup2(STDOUT_FILENO, new_fd_out) < 0)
+			exit_error(shell, "dup2");
+		close(new_fd_out);
+	}
 }
 
 //static void	close_fd(t_shell *shell, int n_cmd, int pipe_fd[2], int fd_prev)
@@ -42,33 +50,37 @@ static void	redirect_pipeline(t_shell *shell, int i, int pipe_fd[2], int fd_prev
 	int	last_cmd;
 
 	first_cmd = 0;
-	last_cmd = shell->tab_size;
+	last_cmd = shell->tab_size - 1;
 	if (i == first_cmd)
 	{
 		close(pipe_fd[READ_FROM]);
-		redirect_io(shell, STDIN_FILENO, pipe_fd[WRITE_TO]);
+		redirect_io(shell, -1 , pipe_fd[WRITE_TO]);
 	}
 	else if (i == last_cmd)
 	{
+		close(pipe_fd[READ_FROM]);
 		close(pipe_fd[WRITE_TO]);
-		redirect_io(shell, fd_prev, STDOUT_FILENO);
+		redirect_io(shell, fd_prev, -1);
 	}
 	else
 	{
 		close(pipe_fd[READ_FROM]);
 		redirect_io(shell, fd_prev, pipe_fd[WRITE_TO]);
-		close(fd_prev);
 	}
 }
 
-static void wait_children(pid_t *child_pid, int i)
+static void wait_children(pid_t *child_pid, int child_nb)
 {
-	while (i != 0)
+	int	i;
+
+	i = 0;
+	while (i != child_nb)
 	{
 		wait(NULL);
-		i--;
+		i++;
 	}
 	free(child_pid);
+	child_pid = NULL;
 }
 
 void	exec_pipeline(t_shell *shell)
@@ -98,8 +110,8 @@ void	exec_pipeline(t_shell *shell)
 			exec_command(shell, i);
 		}
 		close(pipe_fd[WRITE_TO]);
+		close(prev_fd);
 		prev_fd = pipe_fd[READ_FROM];
-		close(pipe_fd[READ_FROM]);
 		i++;
 	}
 	wait_children(child_pid, i);
