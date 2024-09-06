@@ -6,26 +6,27 @@
 /*   By: csteylae <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 13:37:24 by csteylae          #+#    #+#             */
-/*   Updated: 2024/09/06 11:43:52 by csteylae         ###   ########.fr       */
+/*   Updated: 2024/09/06 14:56:18 by csteylae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minitry.h"
 
-static void	redirect_io(t_shell *shell, int new_fd_in, int new_fd_out)
+static void	redirect_io(t_shell *shell, int *new_fd_in, int *new_fd_out)
 {
 	if (new_fd_in >= 0)
 	{
-		if (dup2(STDIN_FILENO, new_fd_in) < 0)
+		if (dup2(*new_fd_in, STDIN_FILENO) < 0)
 			exit_error(shell, "dup2");
-		close(new_fd_in);
+		close(*new_fd_in);
 	}
 	if (new_fd_out >= 0)
 	{
-		if (dup2(STDOUT_FILENO, new_fd_out) < 0)
+		if (dup2(*new_fd_out, STDOUT_FILENO) < 0)
 			exit_error(shell, "dup2");
-		close(new_fd_out);
+		close(*new_fd_out);
 	}
+	ft_printf("no prb with dup2\n\n");
 }
 
 //static void	close_fd(t_shell *shell, int n_cmd, int pipe_fd[2], int fd_prev)
@@ -44,7 +45,7 @@ static void	redirect_io(t_shell *shell, int new_fd_in, int new_fd_out)
 //	return;
 //}
 
-static void	redirect_pipeline(t_shell *shell, int i, int pipe_fd[2], int fd_prev)
+static void	redirect_pipeline(t_shell *shell, int i, int pipe_fd[2], int *fd_prev)
 {
 	int	first_cmd;
 	int	last_cmd;
@@ -54,18 +55,18 @@ static void	redirect_pipeline(t_shell *shell, int i, int pipe_fd[2], int fd_prev
 	if (i == first_cmd)
 	{
 		close(pipe_fd[READ_FROM]);
-		redirect_io(shell, -1 , pipe_fd[WRITE_TO]);
+		redirect_io(shell, fd_prev, &pipe_fd[WRITE_TO]);
 	}
 	else if (i == last_cmd)
 	{
 		close(pipe_fd[READ_FROM]);
 		close(pipe_fd[WRITE_TO]);
-		redirect_io(shell, fd_prev, -1);
+		redirect_io(shell, fd_prev, (int*)STDOUT_FILENO);
 	}
 	else
 	{
 		close(pipe_fd[READ_FROM]);
-		redirect_io(shell, fd_prev, pipe_fd[WRITE_TO]);
+		redirect_io(shell, fd_prev, &pipe_fd[WRITE_TO]);
 	}
 }
 
@@ -106,7 +107,9 @@ void	exec_pipeline(t_shell *shell)
 			exit_error(shell, "fork");
 		else if (child_pid[i] == 0)
 		{
-			redirect_pipeline(shell, i, pipe_fd, prev_fd);
+			// prb because i passed value and no pointer so what happens in redirect_pipeline doesnt affect what will be done in exec_cmd ?
+			redirect_pipeline(shell, i, pipe_fd, &prev_fd);
+			ft_printf("is it dup ? : %d\n", STDIN_FILENO);
 			exec_command(shell, i);
 		}
 		close(pipe_fd[WRITE_TO]);
@@ -114,5 +117,7 @@ void	exec_pipeline(t_shell *shell)
 		prev_fd = pipe_fd[READ_FROM];
 		i++;
 	}
+	close(prev_fd);
 	wait_children(child_pid, i);
+	ft_printf("has waited\n");
 }
