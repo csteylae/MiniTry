@@ -6,7 +6,7 @@
 /*   By: iwaslet <iwaslet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 12:20:42 by csteylae          #+#    #+#             */
-/*   Updated: 2024/08/20 16:16:23 by iwaslet          ###   ########.fr       */
+/*   Updated: 2024/09/05 16:05:19 by iwaslet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ enum e_tokens {
 typedef struct s_lexer
 {
     char    *word;
-    int     operator;
+    int     isthereaspace;
 	enum e_tokens	type;
 }   t_lexer;
 
@@ -96,11 +96,9 @@ typedef struct s_shell
 
 typedef struct s_darray
 {
-	void	*content;
+	t_lexer	*content;
 	size_t	max_size;
-	size_t	type_size;
-	size_t	size;
-	size_t	nbr;
+	size_t	actual_size;
 	size_t	block;
 }	t_darray;
 

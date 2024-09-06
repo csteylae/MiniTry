@@ -56,7 +56,7 @@ int pars_it(char *input)
 
 int ft_isspace(char c)
 {
-    if (c = ' ') //inclure les autres whitespace ?
+    if ((c > 8 && c < 14) || c == 32)
         return (0);
     return (1);
 }
