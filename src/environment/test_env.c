@@ -6,7 +6,7 @@
 /*   By: csteylae <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 12:09:39 by csteylae          #+#    #+#             */
-/*   Updated: 2024/08/01 18:48:01 by csteylae         ###   ########.fr       */
+/*   Updated: 2024/09/05 12:44:41 by csteylae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,11 +40,11 @@ static void	set_all_members_to_NULL(t_command *tab, int size)
 	}
 }
 
-static void parse_cmd(t_data *data, t_command *tab, char *input)
+static void parse_cmd(t_shell *shell, t_command *tab, char *input)
 {
 	int i;
 	char **input_split;
-	(void)data;
+	(void)shell;
 
 	i = 0;
 	input_split = ft_split(input, '|');
@@ -53,45 +53,42 @@ static void parse_cmd(t_data *data, t_command *tab, char *input)
 		tab[i].cmd = ft_split(input_split[i], ' ');
 		i++;
 	}
+	free_tab_char(input_split);
 }
 
-static	t_command *pseudo_parsing(t_data *data, char *input)
+static	t_command *pseudo_parsing(t_shell *shell, char *input)
 {
 	t_command *tab;
 	int	nb_of_cmd;
 
 	nb_of_cmd = count_nb_of_cmd(input);
-	data->tab_size = nb_of_cmd;
-	printf("nb of cmd : %d\n", data->tab_size);
+	shell->tab_size = nb_of_cmd;
+	printf("nb of cmd : %d\n", shell->tab_size);
 	tab	= malloc(sizeof(*tab) * (nb_of_cmd));
 	if (!tab)
-	{
-		ft_putstr_fd("error\n", 1);
-		exit(EXIT_FAILURE);
-	}
+		exit_error(shell, "malloc");
 	set_all_members_to_NULL(tab, nb_of_cmd);
-	parse_cmd(data, tab, input);
+	parse_cmd(shell, tab, input);
 	return (tab);
 }
 
-void	test_env(t_data *data, char *input)
+void	test_env(t_shell *shell, char *input)
 {
-//	exec_cd("src/execution");
-	exec_env(input, data->env);
-	data->tab = pseudo_parsing(data, input);
-	exec_prompt(data);
+	exec_cd("src/execution");
+	shell->tab = pseudo_parsing(shell, input);
+	exec_prompt(shell);
 }
 
-void	ft_print_cmd(t_data *data)
+void	ft_print_cmd(t_shell *shell)
 {
 	int	i = 0;
 	int	j = 0;
 
-	while (i != data->tab_size)
+	while (i != shell->tab_size)
 	{
-		while (data->tab[i].cmd[j] != NULL)
+		while (shell->tab[i].cmd[j] != NULL)
 		{
-			printf("%s\n", data->tab[i].cmd[j]);
+			ft_printf("%s\n", shell->tab[i].cmd[j]);
 			j++;
 		}
 		j = 0;

@@ -12,14 +12,17 @@ SRCS= src/parsing/minitry.c \
 	  src/environment/init_env.c\
 	  src/environment/test_env.c \
 	  src/execution/exec_command.c \
-	  src/execution/exec_prompt.c
+	  src/execution/exec_prompt.c \
+	  src/execution/exec_pipeline.c \
+	  src/utils/free_struct.c \
+	  src/utils/exit_error.c \
 
 OBJS=$(SRCS:.c=.o)
 
 $(NAME) :$(OBJS)
 	make bonus -C lib/Libft
 	make -C lib/ft_printf
-	$(CC) $(CFLAGS) $(OBJS) -o $(NAME) $(LIBFT) $(PRINTF_LIB) -lreadline
+	$(CC) $(CFLAGS) $(OBJS) $(LIBFT) $(PRINTF_LIB) -lreadline -o $(NAME)
 
 all : $(NAME)
 
@@ -32,6 +35,7 @@ fclean : clean
 	make fclean -C lib/Libft
 	make fclean -C lib/ft_printf
 	rm -rf  $(NAME)
+	rm -rf *.dSYM
 
 re: fclean all
 

@@ -53,3 +53,10 @@ int pars_it(char *input)
         // ">/< filename" toujours
     }
 }
+
+int ft_isspace(char c)
+{
+    if ((c > 8 && c < 14) || c == 32)
+        return (0);
+    return (1);
+}

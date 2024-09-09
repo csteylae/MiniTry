@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Homemade_Split.c                                   :+:      :+:    :+:   */
+/*   homemade_split.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: iwaslet <iwaslet@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 19:48:46 by iwaslet           #+#    #+#             */
-/*   Updated: 2024/07/24 15:54:16 by iwaslet          ###   ########.fr       */
+/*   Updated: 2024/09/05 16:11:06 by iwaslet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,13 +73,12 @@ void    save_space(char *str, char c)
 DYNAMIC ARRAY IDEA
 struct s_darray
 {
-    void*   content;
-    size_t  max_size;       size of malloced memory
-    size_t  type_size;      size of element type
-    size_t  actual_size;    amount of bytes in use
-    size_t  size;           amount of elements
-    soze_t  block_size;     size of blocks
-}
+    t_lexer*   content;
+    size_t  max_size;       size of malloced memory   //maximum number of elements (determined by block_size)
+    size_t  type_size;      size of element type = sizeof(t_lexer)
+    size_t  actual_size;    amount of bytes in use  // index for the last element in use -1  (actual elements used)
+    size_t  block_size;     size of blocks  //1 bloc is several elements so that I dont have to reallocate too often
+}   t_darray;
 
 init_array(amount, type_size);
 append(void* element);              if ((size + 1) * type_size > max_size) --> realloc with an extra block
@@ -91,3 +90,39 @@ delete(delete*(void*))              if (delete != NULL) { use delete ft on all e
 
 void* content = [][][][][]       = 5 mem blocks of size type_size (e.g. int or token)
 */
+
+
+// si un malloc foire ou que ce soit, on peut exit le programme
+
+/*plutot qu'un double tableau, simple tableau, 
+compter mes pipes pour eliminer les erreur de sytaxe 
+et creer un tableau de commandes de la bonne taille direct 
+et sortir de ma boucle a chaque pipe*/
+
+/*while()
+{
+    array[i]
+    while(array[i] = PIPE)
+    {
+        array[i][j]
+    }
+}*/
+
+/*
+darray implentations:
+    - init_array(block_size, type_size);
+    - append(element);      // calls realloc if needed (actual_size >= max_size)
+    - realloc();            // expand :) (and memcopy) (and also free content)
+    - delete();             // free content
+*/
+
+example_function() 
+{
+    t_lexer new;
+    append(new); // memcopy new
+}
+
+
+t_lexer test;
+
+test = (t_lexer){0};

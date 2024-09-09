@@ -6,25 +6,22 @@
 /*   By: csteylae <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 17:03:21 by csteylae          #+#    #+#             */
-/*   Updated: 2024/08/01 18:42:57 by csteylae         ###   ########.fr       */
+/*   Updated: 2024/09/04 15:10:35 by csteylae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minitry.h"
 
-void	exec_env(char *str, char **envp)
+void	exec_env(t_shell *shell)
 {
 	int	i;
 
 	i = 0;
-	if (!envp && !*envp)
+	if (!shell->env && !shell->env[0])
 		return ;
-	if (!ft_strncmp("env", str, ft_strlen("env")))
+	while (shell->env[i])
 	{
-		while (envp[i])
-		{
-			printf("%s\n", envp[i]);
-			i++;
-		}
+		ft_printf("%s\n", shell->env[i]);
+		i++;
 	}
 }

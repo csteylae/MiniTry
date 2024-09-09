@@ -1,24 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minitry.h                                          :+:      :+:    :+:   */
+/*   exit_error.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: csteylae <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/31 12:20:28 by csteylae          #+#    #+#             */
-/*   Updated: 2024/07/31 12:20:55 by csteylae         ###   ########.fr       */
+/*   Created: 2024/08/07 14:52:42 by csteylae          #+#    #+#             */
+/*   Updated: 2024/08/07 14:52:47 by csteylae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINITRY_H
+#include "../../inc/minitry.h"
 
-#define MINITRY_H
-
-#include "minitry_lib.h"
-#include "minitry_struct.h"
-#include "minitry_function.h"
-
-# define READ_FROM 0
-# define WRITE_TO 1
-
-#endif
+void	exit_error(t_shell *shell, char *error_msg)
+{
+	perror(error_msg);
+	free_shell(shell);
+	exit(EXIT_FAILURE);
+}

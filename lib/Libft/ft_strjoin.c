@@ -3,39 +3,65 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strjoin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iwaslet <iwaslet@student.42.fr>            +#+  +:+       +#+        */
+/*   By: csteylae <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/12 14:49:38 by iwaslet           #+#    #+#             */
-/*   Updated: 2023/10/17 15:20:33 by iwaslet          ###   ########.fr       */
+/*   Created: 2023/04/10 21:38:14 by csteylae          #+#    #+#             */
+/*   Updated: 2024/04/19 11:49:02 by csteylae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strjoin(char const *s1, char const *s2)
+static char	*ft_strcpy_cat(char *dst, char *src, char *src2)
 {
-	char		*str;
-	size_t		i;
-	size_t		j;
-	size_t		lentot;
+	size_t	i;
+	size_t	j;
 
-	if (!s1)
-		return (NULL);
-	if (!s2)
-		return (ft_strdup(s1));
-	i = -1;
+	i = 0;
 	j = 0;
-	lentot = ft_strlen(s1) + ft_strlen(s2);
-	str = malloc(sizeof(char) * (lentot + 1));
-	if (!str)
-		return (NULL);
-	while (++i < ft_strlen(s1))
-		str[i] = s1[i];
-	while ((i + j) < (lentot))
+	while (src[i] != '\0')
 	{
-		str[i + j] = s2[j];
+		dst[i] = src[i];
+		i++;
+	}
+	while (src2[j] != '\0')
+	{
+		dst[i] = src2[j];
+		i++;
 		j++;
 	}
-	str[i + j] = '\0';
-	return (str);
+	dst[i] = '\0';
+	return (dst);
+}
+
+static char	*ft_free_str(char *s1, char *s2, char flag)
+{
+	if (flag == '1')
+		free(s1);
+	else if (flag == '2')
+		free(s2);
+	else if (flag == '3')
+	{
+		free(s1);
+		free(s2);
+	}
+	return (NULL);
+}
+
+char	*ft_strjoin(char *s1, char *s2, char flag)
+{
+	size_t	n;
+	char	*strjoin;
+
+	if (!s1 || !s2)
+		return (NULL);
+	n = ft_strlen(s1) + ft_strlen(s2);
+	if (n == 0)
+		return (ft_calloc(1, 1));
+	strjoin = (char *) malloc(sizeof(char) * (n + 1));
+	if (!strjoin)
+		return (ft_free_str(s1, s2, flag));
+	strjoin = ft_strcpy_cat(strjoin, (char *)s1, (char *)s2);
+	ft_free_str(s1, s2, flag);
+	return (strjoin);
 }
