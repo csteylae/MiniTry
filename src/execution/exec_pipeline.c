@@ -3,134 +3,112 @@
 /*                                                        :::      ::::::::   */
 /*   exec_pipeline.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: csteylae <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: iwaslet <iwaslet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 13:37:24 by csteylae          #+#    #+#             */
-/*   Updated: 2024/09/06 15:52:23 by csteylae         ###   ########.fr       */
+/*   Updated: 2025/02/11 15:26:22 by csteylae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/minitry.h"
+#include "../../inc/minishell.h"
 
-static void	redirect_io(t_shell *shell, int *new_fd_in, int *new_fd_out)
+void	exit_child(t_shell *sh, int pipe_fd[2], int prev_fd, int i)
 {
-	ft_printf("WTHHHHHHHHHHHH\n");
-	if (*new_fd_in >= 0)
-	{
-		if (dup2(*new_fd_in, STDIN_FILENO) < 0)
-		{
-			ft_printf("yeppppppppppp\n");
-			exit_error(shell, "dup2");
-		}
-		close(*new_fd_in);
-		ft_printf("fd_in redirected \n");
-	}
-	if (*new_fd_out >= 0)
-	{
-		if (dup2(*new_fd_out, STDOUT_FILENO) < 0)
-		{
-			ft_printf("ptttttttttttttttn\n");
-			exit_error(shell, "dup2");
-		}
-		close(*new_fd_out);
-		ft_printf("fd_out redirected\n");
-	}
-	ft_printf("no prb with dup2\n\n");
+	int	exit_status;
+
+	sh->exit_status = sh->tab[i].error.code;
+	exit_status = sh->exit_status;
+	close_all_fds(pipe_fd, &prev_fd, &sh->tab[i].fd_in, &sh->tab[i].fd_out);
+	free_shell(sh);
+	exit(exit_status);
 }
 
-//static void	close_fd(t_shell *shell, int n_cmd, int pipe_fd[2], int fd_prev)
-//{
-//	int	first_cmd;
-//	int	last_cmd;
-//
-//	first_cmd = 0;
-//	last_cmd = shell->tab_size;
-//	if (n_cmd == first_cmd)
-//		close(pipe_fd[READ_FROM]);
-//	else if (n_cmd == last_cmd)
-//		close(pipe_fd[WRITE_TO]);
-//	else
-//		close(pipe_fd[READ_FROM]);
-//	return;
-//}
-
-static void	redirect_pipeline(t_shell *shell, int i, int pipe_fd[2], int *fd_prev)
+static void	launch_cmd(t_shell *sh, int i, int pipe_fd[2], int prev_fd)
 {
-	int	first_cmd;
-	int	last_cmd;
+	t_command	*cmd;
+	t_builtin	*builtin;
 
-	first_cmd = 0;
-	last_cmd = shell->tab_size - 1;
-	if (i == first_cmd)
-	{
-		ft_printf("ok1\n");
-		close(pipe_fd[READ_FROM]);
-		redirect_io(shell, fd_prev, &pipe_fd[WRITE_TO]);
-	}
-	else if (i == last_cmd)
-	{
-		ft_printf("ok end\n");
-		close(pipe_fd[READ_FROM]);
-		close(pipe_fd[WRITE_TO]);
-		redirect_io(shell, fd_prev, (int*)STDOUT_FILENO);
-	}
+	cmd = &sh->tab[i];
+	perform_redirection(sh, &sh->tab[i]);
+	if (cmd->error.code != SUCCESS || !cmd->cmd[0])
+		exit_child(sh, pipe_fd, prev_fd, i);
+	builtin = find_builtin(sh, cmd);
+	if (configure_pipeline(sh, i, pipe_fd, prev_fd) == FAIL)
+		exit_child(sh, pipe_fd, prev_fd, i);
+	if (builtin)
+		exec_builtin(builtin, cmd, sh);
 	else
 	{
-		ft_printf("ok mid\n");
-		close(pipe_fd[READ_FROM]);
-		redirect_io(shell, fd_prev, &pipe_fd[WRITE_TO]);
+		exec_external_command(sh, i);
 	}
-	ft_printf("okkkkkkkkkkkkk\n");
+	exit_child(sh, pipe_fd, prev_fd, i);
 }
 
-static void wait_children(pid_t *child_pid, int child_nb)
+static int	get_prev_fd(t_shell *sh, int i, int pipe_fd[2], int prev_fd)
 {
-	int	i;
+	t_command	*cmd;
 
-	i = 0;
-	while (i != child_nb)
+	cmd = &sh->tab[i];
+	if (close_fd(&pipe_fd[WRITE_TO]) == FAIL || close_fd(&prev_fd) == FAIL)
 	{
-		wait(NULL);
-		i++;
+		close_all_fds(pipe_fd, &prev_fd, &sh->tab[i].fd_in, &sh->tab[i].fd_out);
+		cmd->error = set_error(NULL, SYSCALL_ERROR);
+		return (NO_REDIR);
 	}
-	free(child_pid);
-	child_pid = NULL;
+	if (cmd->fd_out != NO_REDIR)
+		close_fd(&pipe_fd[READ_FROM]);
+	return (pipe_fd[READ_FROM]);
 }
 
-void	exec_pipeline(t_shell *shell)
+struct sigaction 	setup_signal_in_children(void)
 {
-	int	i;
-	int	pipe_fd[2];
-	pid_t *child_pid;
-	int	prev_fd;
+	struct	sigaction act;
 
+	ft_bzero(&act, sizeof(act));
+	act.sa_handler = SIG_DFL;
+	sigemptyset(&act.sa_mask);
+	act.sa_flags = 0;
+	if (sigaction(SIGINT, &act, NULL) != SUCCESS)
+		exit(EXIT_FAILURE);
+	return (act);
+}
+
+struct sigaction	setup_signal_in_parent(void)
+{
+	struct	sigaction act;
+
+	ft_bzero(&act, sizeof(act));
+	act.sa_handler = SIG_IGN;
+	sigemptyset(&act.sa_mask);
+	act.sa_flags = 0;
+	if (sigaction(SIGINT, &act, NULL) != SUCCESS)
+		exit(EXIT_FAILURE);
+	return (act);
+}
+
+void	exec_pipeline(t_shell *sh)
+{
+	int					pipe_fd[2];
+	int					prev_fd;
+	int					i;
+	struct sigaction	old_act;
+
+	sigaction(SIGINT, NULL, &old_act);
+	prev_fd = NO_REDIR;
 	i = 0;
-	child_pid = malloc(sizeof(*child_pid) * shell->tab_size);
-	if (!child_pid)
-		exit_error(shell, "malloc");
-	prev_fd = 0;
-	while (i != shell->tab_size) //while command arent executed
+	init_child_pid(sh);
+	sh->signal_act = setup_signal_in_parent();
+	while (i != sh->tab_size)
 	{
-		//perform_redirections_files()
-		ft_printf("nb of iteration %i\n", i);
-		pipe(pipe_fd);
-		if (pipe_fd < 0)
-			exit_error(shell, "pipe");
-		child_pid[i] = fork();
-		if (child_pid[i] < 0)
-			exit_error(shell, "fork");
-		else if (child_pid[i] == 0)
+		init_pipeline(sh, i, pipe_fd, prev_fd);
+		if (sh->child_pid[i] == CHILD_PROCESS)
 		{
-			// prb because i passed value and no pointer so what happens in redirect_pipeline doesnt affect what will be done in exec_cmd ?
-			redirect_pipeline(shell, i, pipe_fd, &prev_fd);
-			ft_printf("out of redirect_pipeline\n");
-			exec_command(shell, i);
+			sh->signal_act = setup_signal_in_children();
+			launch_cmd(sh, i, pipe_fd, prev_fd);
 		}
-		close(pipe_fd[WRITE_TO]);
-		close(prev_fd);
-		prev_fd = pipe_fd[READ_FROM];
+		prev_fd = get_prev_fd(sh, i, pipe_fd, prev_fd);
 		i++;
 	}
-	close(prev_fd);
-	wait_children(child_pid, i);
+	terminate_pipeline(sh, i, prev_fd);
+	sigaction(SIGINT, &old_act, NULL);
 }

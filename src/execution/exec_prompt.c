@@ -3,91 +3,34 @@
 /*                                                        :::      ::::::::   */
 /*   exec_prompt.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: csteylae <marvin@42.fr>                    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/05 15:23:01 by csteylae          #+#    #+#             */
-/*   Updated: 2024/09/05 16:19:49 by csteylae         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   exec_prompt.c                                      :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: csteylae <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: iwaslet <iwaslet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 16:07:13 by csteylae          #+#    #+#             */
-/*   Updated: 2024/09/05 15:08:57 by csteylae         ###   ########.fr       */
+/*   Updated: 2025/02/11 15:24:07 by csteylae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/minitry.h"
+#include "../../inc/minishell.h"
 
-void	exec_heredoc(t_shell *shell, t_redirect *heredoc)
+static	t_shell	*clean_prompt(t_shell *shell)
 {
-	(void) shell;
-	(void)heredoc;
-	return;
-}
-
-void	open_file(t_shell *shell, int index)
-{
-	int	i;
-	char *in;
-
-	i = 0;
-	in = shell->tab[index].in[i].filename;
-}
-		
-void	perform_redirections(t_shell *shell, int index)
-{
-	t_redirect	*heredoc;
-	
-	heredoc = shell->tab[index].heredoc;
-	if (heredoc)
-		exec_heredoc(shell, heredoc);
-	open_file(shell, index);
-}
-
-bool	exec_builtin(t_shell *shell)
-{
-	char **cmd;
-
-	cmd = shell->tab->cmd;
-	if (!ft_strncmp(cmd[0], "env", ft_strlen(cmd[0])))
-		exec_env(shell);
-//	else if (ft_strncmp(cmd[0], "cd", ft_strlen(cmd[0])))
-	else
-		return (false);
-	return (true);
-}
-
-void	exec_simple_cmd(t_shell *shell)
-{
-	pid_t	pid;
-	char	**cmd;
-
-	cmd = shell->tab->cmd;
-//	perform_redirections(shell, 0);
-	if (exec_builtin(shell))
-		return;
-	pid = fork();
-	if (pid < 0)
-		exit_error(shell, "fork");
-	if (pid == 0)
-		exec_command(shell, 0);
-	shell->exit_status = wait(NULL);
+	free_tab_cmd(shell->tab_size, shell->tab);
+	shell->tab_size = 0;
+	shell->tab = NULL;
+	if (shell->child_pid)
+	{
+		free(shell->child_pid);
+		shell->child_pid = NULL;
+	}
+	return (shell);
 }
 
 int	exec_prompt(t_shell *shell)
 {
-	int	nb;
-
-	nb = shell->tab_size;
-	if (nb == 1)
-		exec_simple_cmd(shell);
-	else
-		exec_pipeline(shell);
-	return (0);
+	if (is_only_one_builtin(shell, 0))
+		return (shell->exit_status);
+	exec_pipeline(shell);
+	shell = clean_prompt(shell);
+	ft_printf("exit status : %d\n", shell->exit_status);
+	return (shell->exit_status);
 }

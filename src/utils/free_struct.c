@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   free_struct.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iwaslet <iwaslet@student.s19.be>           +#+  +:+       +#+        */
+/*   By: iwaslet <iwaslet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 14:52:53 by csteylae          #+#    #+#             */
-/*   Updated: 2024/08/20 15:56:46 by iwaslet          ###   ########.fr       */
+/*   Updated: 2024/12/21 15:06:39 by csteylae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/minitry.h"
+#include "../../inc/minishell.h"
 
 void	free_tab_char(char **tab)
 {
@@ -30,37 +30,37 @@ void	free_tab_char(char **tab)
 	}
 }
 
-void	free_tab_redirect(t_redirect *redir_tab)
+void	free_redir_array(t_redir_array redirection)
 {
 	int	i;
 
 	i = 0;
-	if (!redir_tab)
+	if (!redirection.array)
 		return ;
-	while(redir_tab[i].filename)
+	while (i != redirection.size)
 	{
-		free(redir_tab[i].filename);
-		if (redir_tab[i].hd_delimiter)
-			free(redir_tab[i].hd_delimiter);
+		if (redirection.array[i].hd_delimiter)
+			free(redirection.array[i].hd_delimiter);
+		if (redirection.array[i].filename)
+			free(redirection.array[i].filename);
 		i++;
 	}
-	free(redir_tab);
+	free(redirection.array);
+	redirection.array = NULL;
 }
 
 void	free_cmd(t_command *cmd)
 {
 	if (!cmd)
-		return;
+		return ;
 	if (cmd->cmd)
 		free_tab_char(cmd->cmd);
-	if (cmd->in)
-		free_tab_redirect(cmd->in);
-	if (cmd->out)
-		free_tab_redirect(cmd->out);
-	if (cmd->heredoc)
-		free_tab_redirect(cmd->heredoc);
-	if(cmd->append)
-		free_tab_redirect(cmd->append);
+	if (cmd->redirection.array)
+		free_redir_array(cmd->redirection);
+	if (cmd->fd_in > 2)
+		close(cmd->fd_in);
+	if (cmd->fd_out > 2)
+		close(cmd->fd_out);
 	cmd = NULL;
 }
 
@@ -81,10 +81,14 @@ void	free_tab_cmd(int size, t_command *tab)
 void	free_shell(t_shell *shell)
 {
 	if (!shell)
-		return;
+		return ;
 	if (shell->tab)
 		free_tab_cmd(shell->tab_size, shell->tab);
 	if (shell->env)
 		free_tab_char(shell->env);
-	shell = NULL;
+	if (shell->child_pid)
+	{
+		free(shell->child_pid);
+		shell->child_pid = NULL;
+	}
 }

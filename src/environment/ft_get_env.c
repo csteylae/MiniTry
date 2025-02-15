@@ -1,27 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env.c                                              :+:      :+:    :+:   */
+/*   ft_get_env.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: csteylae <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/26 17:03:21 by csteylae          #+#    #+#             */
-/*   Updated: 2024/09/04 15:10:35 by csteylae         ###   ########.fr       */
+/*   Created: 2025/02/01 15:14:57 by csteylae          #+#    #+#             */
+/*   Updated: 2025/02/01 15:30:05 by csteylae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/minitry.h"
+#include "../../inc/minishell.h"
 
-void	exec_env(t_shell *shell)
+t_env_list	*get_env(char *key, t_env_list **head)
 {
-	int	i;
+	t_env_list	*tmp;
 
-	i = 0;
-	if (!shell->env && !shell->env[0])
-		return ;
-	while (shell->env[i])
+	if (!head || !*head || !key)
+		return (NULL);
+	tmp = *head;
+	while (tmp)
 	{
-		ft_printf("%s\n", shell->env[i]);
-		i++;
+		if (key_found(key, tmp->key))
+			return (tmp);
+		tmp = tmp->next;
 	}
+	return (NULL);
 }

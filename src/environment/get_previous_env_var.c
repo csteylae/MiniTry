@@ -1,32 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cd.c                                               :+:      :+:    :+:   */
+/*   get_previous_env_var.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: csteylae <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/26 16:23:29 by csteylae          #+#    #+#             */
-/*   Updated: 2024/07/31 11:40:56 by csteylae         ###   ########.fr       */
+/*   Created: 2025/02/01 15:13:27 by csteylae          #+#    #+#             */
+/*   Updated: 2025/02/06 14:45:38 by csteylae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/minitry.h" 
+#include "../../inc/minishell.h"
 
-int	ft_strnlen(char *str, char c)
+t_env_list	*get_prev_env(t_env_list **head, char *key)
 {
-	int	i = 0;
-	while (str[i] != c)
-		i++;
-	return i;
-}
-void	exec_cd(char *input)
-{
-	char **cmd = ft_split(input, ' ');
-	
-	if (!ft_strncmp("cd", cmd[0], ft_strlen("cd")))
+	t_env_list	*tmp;
+
+	if (!head || !*head || !key)
+		return (NULL);
+	tmp = *head;
+	while (tmp)
 	{
-		printf("LOL\n");
-		if (cmd[1])
-			chdir(cmd[1]);
+		if (tmp->next)
+		{
+			if (key_found(tmp->next->key, key))
+				return (tmp);
+		}
+		tmp = tmp->next;
 	}
+	return (NULL);
 }
+

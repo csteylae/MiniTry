@@ -1,24 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minitry.h                                          :+:      :+:    :+:   */
+/*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: csteylae <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: iwaslet <iwaslet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/31 12:20:28 by csteylae          #+#    #+#             */
-/*   Updated: 2024/07/31 12:20:55 by csteylae         ###   ########.fr       */
+/*   Created: 2024/11/13 16:33:24 by iwaslet           #+#    #+#             */
+/*   Updated: 2025/02/05 14:05:03 by csteylae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINITRY_H
+#ifndef MINISHELL_H
 
-#define MINITRY_H
+# define MINISHELL_H
 
-#include "minitry_lib.h"
-#include "minitry_struct.h"
-#include "minitry_function.h"
-
-# define READ_FROM 0
-# define WRITE_TO 1
+# include "minishell_lib.h"
+# include "minishell_enum.h"
+# include "minishell_struct.h"
+# include "minishell_function.h"
+extern volatile sig_atomic_t	g_signal_received;
 
 #endif

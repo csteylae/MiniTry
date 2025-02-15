@@ -3,92 +3,66 @@
 /*                                                        :::      ::::::::   */
 /*   exec_command.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: csteylae <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: iwaslet <iwaslet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/01 18:34:48 by csteylae          #+#    #+#             */
-/*   Updated: 2024/09/06 15:46:16 by csteylae         ###   ########.fr       */
+/*   Updated: 2025/02/11 14:05:06 by csteylae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/minitry.h"
+#include "../../inc/minishell.h"
 
 /* 
  * first construct the path from the var_env PATH, add the "/cmd" to the path 
  * then try to access the executable via access() with the X_OK flag 
- * if an access is found the command will be executed with execve() that will exit the programm
+ * if an access is found the command will be executed with execve()
+ * that will exit the programm
  * if no path was found we need to manage the error appropriately
- *
- * */
-static void	exec_error(char **path, t_shell *shell, char *msg_error)
-{
-	if (path)
-		free_tab_char(path);
-	exit_error(shell, msg_error);
-}
+ */
 
-static void	search_absolute_path(t_shell *shell, int n)
+static void	exec_absolute_path(t_shell *shell, int n)
 {
-	char *path;
+	char	*path;
 
-	if (!ft_strchr(shell->tab[n].cmd[0], '/'))
-		return;
 	path = shell->tab[n].cmd[0];
 	if (access(path, X_OK) == 0)
 	{
 		if (execve(path, shell->tab[n].cmd, shell->env) < 0)
-			exec_error(NULL, shell, "execve");
-	}
-	exec_error(NULL, shell, shell->tab[n].cmd[0]);
-}
-
-static char **get_path(char **env)
-{
-	int	i;
-	char *env_path;
-
-	i = 0;
-	env_path = NULL;
-	while (env[i] && ft_strncmp("PATH=", env[i], 5))
-		i++;
-	env_path = env[i] + ft_strlen("PATH=");
-	return (ft_split(env_path, ':'));
-}
-
-static char	*add_cmd_path(char *path, char *cmd)
-{
-	char *cmd_path; 
-
-	cmd_path = ft_strjoin("/", cmd, NO_MALLOC);
-	if (!cmd_path)
-		return (NULL);
-	path = ft_strjoin(path, cmd_path, BOTH_MALLOC);
-	if (!path)
-		return (NULL);
-	return (path);
-}
-
-void	exec_command(t_shell *shell, int n)
-{
-	int		i;
-	char	**path;
-
-	ft_printf("ok\n");
-	i = 0;
-	search_absolute_path(shell, n);
-	path = get_path(shell->env);
-	if (!path)
-		exec_error(path, shell, "malloc");
-	while (path[i])
-	{
-		path[i] = add_cmd_path(path[i], shell->tab[n].cmd[0]);
-		if (!path[i])
-			exec_error(path, shell, "malloc");
-		if (access(path[i], X_OK) == 0)
 		{
-			if (execve(path[i], shell->tab[n].cmd, shell->env) < 0)
-				exec_error(path, shell, "execve");
+			shell->tab[n].error = set_error("execve", SYSCALL_ERROR);
+			return ;
 		}
-		i++;
 	}
-	exec_error(path, shell, shell->tab->cmd[0]);
+	else if (access(path, F_OK) == 0 && access(path, X_OK) != 0)
+		shell->tab[n].error = set_error(path, FAIL);
+	else
+		shell->tab[n].error = set_error(path, CMD_NOT_FOUND);
+}
+
+static void	exec_command(char *path, t_shell *sh, int n)
+{
+	execve(path, sh->tab[n].cmd, sh->env);
+	free(path);
+	sh->tab[n].error = set_error("execve", SYSCALL_ERROR);
+}
+
+void	exec_external_command(t_shell *shell, int n)
+{
+	char			*path;
+	t_command		*cmd;
+
+	path = NULL;
+	cmd = &shell->tab[n];
+	if (ft_strchr(cmd->cmd[0], '/'))
+		return (exec_absolute_path(shell, n));
+	path = find_executable_path(shell, n, cmd);
+	if (path)
+		return (exec_command(path, shell, n));
+	else
+	{
+		if (cmd->error.code == CMD_NOT_FOUND)
+			ft_printf("%s : command not found\n", cmd->cmd[0]);
+		else if (cmd->error.code == FILE_NO_PERM)
+			ft_printf("%s : permission denied\n", cmd->cmd[0]);
+	}
 }

@@ -1,96 +1,66 @@
-#include "../../inc/minitry.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   retrieve_cmd.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: iwaslet <iwaslet@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/09/18 17:06:17 by iwaslet           #+#    #+#             */
+/*   Updated: 2024/12/06 15:09:01 by iwaslet          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-t_command   retrieve_cmd(char *input)
+#include "../../inc/minishell.h"
+
+t_darray	*retrieve_cmd(char *input)
 {
-    t_darray tab;
-    t_lexer	lexer;
-    int		i;
-	int		j;
+	t_darray	*tab;
 
-    i = 0;
-	j = 0;
-    init_array(&tab, 10);
-	if (!tab.content)
-		return ((void)NULL);
-    while (input[i]) //identifier aussi les WORDS
-    {
-        if (ft_isspace(input[i]) = 0)
-            i++;
-        else if (input[i] == '|') //erreur si j'ai "||" ou que | est mon premier terme ? des aue j'ai un pipe -> ajouter une ligne a ma struc et le mettre en premier terme de la nouvelle ligne
-			tab[j].type = PIPE //indiquer sa position qq part ? 
-		else if (input[i] == '<<') //utils str_cmp  si "<>"/"><" erreur de syntaxe
-		else if (input[i] == '<' && input[i] == input[i + 1])
-			lexer->operator = REDIR_HEREDOC;
-		else if (input[i] == '>>')
-			lexer->operator = REDIR_APP;
-		else if (input[i] == '<')
-			lexer->operator = REDIR_IN;
-		else if (input[i] == '>')
-			lexer->operator = REDIR_OUT;
-			tab[j] = new_token;
-		else if (input[i] == '\"')
-		{
-			while (input[i] != '\"') //ici on doit conserver les variables d'env uniquement
-			{
-				if (input[i] == '\0')
-					error_fct();
-				stocker chaque carctere dans une string //puis transferer cette strinf dans tab et puis la free ou direct dans tab ?
-				i++;
-			}
-		}
-		else if (input[i] == '\'')
-		{
-			lexer->operator = QUOTE;
-			i++;
-			while (input[i] != '\'') //ici on gere rien du tout c'est un WORD, \n, \t, \v, \f, \r
-			{
-				if (input[i] == '\0')
-					error_fct();
-				stocker chaque carctere dans une string
-				i++;
-			}
-		}
-		i++;
-    }
-}
-
-// maybe give return check?
-char	init_array(t_darray* darray, size_t block_size)
-{
-	darray->block = block_size;
-	darray->max_size = block_size;
-	darray->actual_size = 0;
-	darray->content = malloc(sizeof(t_lexer)*block_size);
-	if (!darray->content)
-		return (0);
-	return (1);
-}
-
-int	append_array(t_darray darray)
-{
-
-}
-
-void	free_temp_array(t_darray* darray)
-{
-	int	i;
-
-	i = 0;
-	while (i < darray->actual_size)
+	tab = malloc(sizeof(t_darray));
+	if (!tab)
+		return (NULL);
+	if (init_array(tab, 10) == 0)
+		return (tab);
+	if (retrieve_loop(input, tab, 0, 0) == 1)
 	{
-		free(darray->content[i].word);
-		i++;
+		free_final_array(tab);
+		return (NULL);
 	}
-	free(darray->content);
+	if (tab->actual_size == 0)
+		return (NULL);
+	return (tab);
 }
 
-t_darray	realloc_array(t_darray darray, t_lexer new_token)
+int	retrieve_loop(char *input, t_darray *tab, int i, int j)
 {
-	t_darray	*new_array;
+	int	a;
 
-	new_array = init_array(darray.size + darray.block);
-	// copier darray dans new_array
-	new_array[max+1] = new token
-	free darray
-	return (new_array);
+	while (input[i])
+	{
+		a = 0;
+		if (ft_isspace(input[i]) == 1)
+			i++;
+		else if (input[i] == '|')
+			a = retrieve_pipe(input, &i, &j, tab);
+		else if (input[i] == '<')
+			a = retrieve_in(input, &i, &j, tab);
+		else if (input[i] == '>')
+			a = retrieve_out(input, &i, &j, tab);
+		else if (input[i] == '\"')
+			a = retrieve_dquotes(input, &i, &j, tab);
+		else if (input[i] == '\'')
+			a = retrieve_squotes(input, &i, &j, tab);
+		else
+			a = retrieve_word(input, &i, &j, tab);
+		if (a == 1)
+			return (1);
+	}
+	return (0);
+}
+
+int	ft_isspace(char c)
+{
+	if ((c > 8 && c < 14) || c == 32)
+		return (1);
+	return (0);
 }
